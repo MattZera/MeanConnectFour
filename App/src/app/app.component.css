@@ -1,6 +1,6 @@
 .form {
-  width: 700px;
-  height: 100px;
+  width: 280px;
+  height: 40px;
   display: flex;
   margin: 0 auto;
   justify-content: space-around;
@@ -10,11 +10,41 @@
   opacity: 0;
   background-color: red;
   margin: auto;
-  width: 90px;
+  width: 36px;
   height: 90%;
   border-radius: 100%;
 }
 
 .coin:hover {
   opacity: 1;
+}
+
+h1 {
+  font-size: 100%;
+}
+
+@media only screen and (min-width : 370px) and (max-width : 715px) {
+  .form {
+    width: 350px;
+    height: 50px;
+  }
+
+  .coin {
+    width: 45px;
+  }
+}
+
+@media only screen and (min-width : 716px) {
+  .form {
+    width: 700px;
+    height: 100px;
+  }
+
+  .coin {
+    width: 90px;
+  }
+
+  h1 {
+    font-size: 200%;
+  }
 }
