@@ -1,0 +1,20 @@
+.form {
+  width: 700px;
+  height: 100px;
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-around;
+}
+
+.coin {
+  opacity: 0;
+  background-color: red;
+  margin: auto;
+  width: 90px;
+  height: 90%;
+  border-radius: 100%;
+}
+
+.coin:hover {
+  opacity: 1;
+}
