@@ -9,6 +9,7 @@ export class SocketService implements OnDestroy {
   private connectionObservable: Observable<any>;
   private connections: any = {};
   private sendSubject: Subject<any>;
+  private socket;
 
   constructor() {
 
@@ -20,17 +21,17 @@ export class SocketService implements OnDestroy {
       //create the observable
       Observable.create((observer) => {
         //connect to the socket
-        var socket = socketio.connect();
+        this.socket = socketio.connect();
 
         //subscribe to messages sent
-        var subscription = this.sendSubject.subscribe((message) => socket.emit(message.label, message.data));
+        var subscription = this.sendSubject.subscribe((message) => this.socket.emit(message.label, message.data));
 
-        observer.next(socket);
+        observer.next(this.socket);
 
         //cleanup and close the connection
         return function () {
           subscription.unsubscribe();
-          socket.disconnect();
+          this.socket.disconnect();
         }
       }
       )).publishReplay().refCount();
@@ -54,5 +55,9 @@ export class SocketService implements OnDestroy {
 
   public send(label: string, data: any = {}) {
     this.sendSubject.next({ label: label, data: data });
+  }
+
+  public receive(label: string, callback: (data: any) => any) {
+    this.socket.on(label, callback);
   }
 }

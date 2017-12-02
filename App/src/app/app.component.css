@@ -8,15 +8,30 @@
 
 .coin {
   opacity: 0;
-  background-color: red;
   margin: auto;
   width: 36px;
   height: 90%;
   border-radius: 100%;
 }
 
+.player1 {
+  background-color: red;
+}
+
+.player2 {
+  background-color: blue;
+}
+
 .coin:hover {
   opacity: 1;
+}
+
+.active {
+  visibility: visible;
+}
+
+.inactive {
+  visibility: collapse;
 }
 
 h1 {
