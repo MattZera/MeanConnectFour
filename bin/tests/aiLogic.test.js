@@ -180,7 +180,7 @@ describe("./aiLogic", () => {
       ai = new AILogic(board, player);
       const move = ai.computeMove(ai.tree.root, board);
 
-      expect([0, 1, 2, 4, 5, 6]).to.equal(2);
+      expect(move.col).to.not.equal(3);
     });
   });
 });
