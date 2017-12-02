@@ -1,89 +1,81 @@
 // Base node class
 class Node {
-  possibleMoves = [new MoveNode(0,0,0,0)];
-
   constructor() {
-    this.possibleMoves = [];
+    this._possibleMoves = [];
   }
 
-  getPossibleMoves() {
-    return this.possibleMoves;
+  get possibleMoves() {
+    return this._possibleMoves;
   }
 
   addMoves(moves) {
     moves.forEach((move) => {
-      this.possibleMoves.push(new MoveNode(move.getRow(), move.getCol(), move.getHeight(), move.getPlayer()));
+      this.possibleMoves.push(new MoveNode(move.row, move.col, move.height, move.player));
     });
   }
 }
 
 // Move node stores information about each move
 class MoveNode extends Node {
-  row = 0;
-  col = 0;
-  rank = 0;
-  height = 0;
-  depth = 0;
-  player = 0;
-  opponent = 0;
-
   constructor(row, col, height, player) {
     super();
-    this.col = col;
-    this.row = row;
-    this.height = height;
-    this.player = player;
-    this.opponent = player == 1 ? 2 : 1;
+    this._col = col;
+    this._row = row;
+    this._rank = 0;
+    this._height = height;
+    this._depth = 0;
+    this._player = player;
+    this._opponent = player == 1 ? 2 : 1;
   }
 
   //Add subsequent moves
   addMoves(moves) {
     moves.forEach((move) => {
       // Move that is the same needs to be moved up a row
-      if (row === move.getRow() && col === move.getCol()) {
-        if (0 < row) {
-          possibleMoves.push(new MoveNode(move.getRow() - 1, move.getCol(), move.getHeight() + 1, opponent));
+      if (this.row === move.row && this.col === move.col) {
+        if (0 < this.row) {
+          this.possibleMoves.push(new MoveNode(move.row - 1, move.col, move.height + 1, this.opponent));
         }
       } else {
-        possibleMoves.push(new MoveNode(move.getRow(), move.getCol(), move.getHeight() + 1, opponent));
+        this.possibleMoves.push(new MoveNode(move.row, move.col, move.height + 1, this.opponent));
       }
     });
   }
 
-  getCol() {
-    return this.col;
+  get col() {
+    return this._col;
   }
 
-  getRow() {
-    return this.row;
+  get row() {
+    return this._row;
   }
 
-  getHeight() {
-    return this.height;
+  get height() {
+    return this._height;
   }
 
-  getPlayer() {
-    return this.player;
+  get player() {
+    return this._player;
   }
 
-  getOpponent() {
-    return this.opponent;
+  get opponent() {
+    return this._opponent;
   }
 
-  getDepth() {
-    return this.depth;
+  get depth() {
+    return this._depth;
   }
 
-  setDepth(depth) {
-    this.depth = depth;
+  set depth(depth) {
+    this._depth = depth;
   }
 
-  getRank() {
-    return this.rank;
+  get rank() {
+    return this._rank;
   }
 
-  setRank(rank) {
-    this.rank = rank;
+  set rank(rank) {
+    this._rank = rank;
   }
 }
 

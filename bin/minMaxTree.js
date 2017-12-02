@@ -4,14 +4,12 @@ const Node = require("./moveNode.js").Node;
  * Simple tree used to keep track of all moves
  */
 class MinMaxTree {
-  root = new Node();
-
   constructor() {
-    this.root = new Node();
+    this._root = new Node();
   }
 
-  getRoot() {
-    return this.root;
+  get root() {
+    return this._root;
   }
 }
 

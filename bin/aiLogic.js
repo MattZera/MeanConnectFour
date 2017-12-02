@@ -2,16 +2,12 @@ const MinMaxTree = require("./minMaxTree.js").MinMaxTree;
 const MoveNode = require("./moveNode").MoveNode;
 
 class AILogic {
-  player = 0;
-  opponent = 0;
-  lookAhead = 6;
-  tree = new MinMaxTree();
-  possibleMoves = [new MoveNode(0, 0, 0, 0)];
-
   constructor(board, player) {
-    this.player = player;
-    this.opponent = player == 1 ? 2 : 1;
-    this.possibleMoves = [];
+    this._player = player;
+    this._opponent = player == 1 ? 2 : 1;
+    this.lookAhead = 6;
+    this._tree = new MinMaxTree();
+    this._possibleMoves = [];
 
     let open = 0;
 
@@ -32,7 +28,23 @@ class AILogic {
     //if (open <= 22) lookAhead = 10;
     //else if (open <= 16) lookAhead = 42;
 
-    this.tree.getRoot().addMoves(this.possibleMoves);
+    this.tree.root.addMoves(this.possibleMoves);
+  }
+
+  get player() {
+    return this._player;
+  }
+
+  get opponent() {
+    return this._opponent;
+  }
+
+  get tree() {
+    return this._tree;
+  }
+
+  get possibleMoves() {
+    return this._possibleMoves;
   }
 
   computeMove(current, board) {
@@ -44,32 +56,32 @@ class AILogic {
       return this.possibleMoves[0];
     }
 
-    current.getPossibleMoves().forEach((move) => {
+    current.possibleMoves.some((move) => {
       // get rank for each move
-      let row = move.getRow();
-      let col = move.getCol();
-      this.computeRank(move, move.getPlayer(), board);
+      let row = move.row;
+      let col = move.col;
+      this.computeRank(move, move.player, board);
 
       // move down the tree if needed
-      if (Number.MAX_SAFE_INTEGER != move.getRank() && move.getHeight() < this.lookAhead) {
-        move.addMoves(current.getPossibleMoves());
+      if (Number.MAX_SAFE_INTEGER != move.rank && move.height < this.lookAhead) {
+        move.addMoves(current.possibleMoves);
 
-        if (move.getPossibleMoves().length > 0) {
-          board[row][col] = move.getPlayer();
+        if (move.possibleMoves.length > 0) {
+          board[row][col] = move.player;
           const m = this.computeMove(move, board);
 
           // set new rank and depth
-          move.setRank(m.getRank());
-          move.setDepth(m.getDepth());
+          move.rank = m.rank;
+          move.depth = m.depth;
           board[row][col] = 0;
         } else {
-          move.setDepth(move.getHeight());
+          move.depth = move.height;
         }
       } else {
-        move.setDepth(move.getHeight());
+        move.depth = move.height;
       }
 
-      let rank = move.getRank();
+      let rank = move.rank;
 
       // Take best move possible
       if (Number.MAX_SAFE_INTEGER != rank) {
@@ -80,16 +92,16 @@ class AILogic {
         } else if (rank == best) {
           if (bestMoves.length == 0) {
             bestMoves.push(move);
-          } else if (move.getDepth() < bestMoves[0].getDepth()) {
+          } else if (move.depth < bestMoves[0].depth) {
             bestMoves = [];
             bestMoves.push(move);
-          } else if (rank < 0 && move.getDepth() > bestMoves[0].getDepth()) {
+          } else if (rank < 0 && move.depth > bestMoves[0].depth) {
             bestMoves = [];
             bestMoves.push(move);
-          } else if (rank >= 0 && move.getDepth() < bestMoves[0].getDepth()) {
+          } else if (rank >= 0 && move.depth < bestMoves[0].depth) {
             bestMoves = [];
             bestMoves.push(move);
-          } else if (move.getDepth() == bestMoves[0].getDepth()) {
+          } else if (move.depth == bestMoves[0].depth) {
             bestMoves.push(move);
           }
         }
@@ -97,15 +109,15 @@ class AILogic {
         best = rank;
         bestMoves = [];
         bestMoves.push(move);
-        break;
+        return true;
       }
     });
-
-    let ret = bestMoves[Math.random() * bestMoves.length]
+    const index = Math.floor(Math.random() * bestMoves.length);
+    let ret = bestMoves[index];
 
     // Subtract best from current except on root
-    if (current !== this.tree.getRoot()) {
-      ret.setRank(current.getRank() - ret.getRank());
+    if (current !== this.tree.root) {
+      ret.rank = current.rank - ret.rank;
     }
 
     // In case of equal moves, choose one
@@ -116,27 +128,27 @@ class AILogic {
     const dirs = ["ul", "l", "dl", "d", "dr", "r", "ur"];
     let pRanks = {};
 
-    const oid = move.getOpponent();
+    const oid = move.opponent;
 
     // Get rank in each direction
     dirs.forEach((dir) => {
-      pRanks[dir] = this.dirRank(id, dir, move.getRow(), move.getCol(), 0, -1, board);
+      pRanks[dir] = this.dirRank(id, dir, move.row, move.col, 0, -1, board);
     });
 
     // Get the maximum rank of all directions
     const leftDiag = this.split("ul", "dr", id, oid, pRanks);
     const rightDiag = this.split("dl", "ur", id, oid, pRanks);
     const horiz = this.split("l", "r", id, oid, pRanks);
-    const down = this.downRank(move.getRow(), id, oid, pRanks["d"]);
-    const pRank = Math.max([leftDiag, rightDiag, horiz, down]);
+    const down = this.downRank(move.row, id, oid, pRanks["d"]);
+    const pRank = Math.max(leftDiag, rightDiag, horiz, down);
 
-    move.setRank(pRank);
+    move.rank = pRank;
   }
 
   // Makes adjustments on diagonals and horizonal ranks
   split(dir1, dir2, id, oid, pRanks) {
-    let s1 = [pRanks[dir1]],
-      s2 = [pRanks[dir2]];
+    let s1 = pRanks[dir1],
+      s2 = pRanks[dir2];
 
     // First adjust single direction
     s1[1] = this.nonSplit(id, oid, s1);
@@ -340,8 +352,8 @@ class AILogic {
 
 function callAI(board, playerNum) {
   const ai = new AILogic(board, playerNum);
-  const move = ai.computeMove(ai.tree.getRoot(), board);
-  return move.getCol();
+  const move = ai.computeMove(ai.tree.root, board);
+  return move.col;
 }
 
 module.exports = {
