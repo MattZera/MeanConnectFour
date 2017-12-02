@@ -8,8 +8,6 @@
     "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./bin/www",
     "test": "cross-env NODE_ENV=test mocha --opts server/tests/mocha.opts \"./bin/**/*.test.js*\""
   },
-  "main": "lib/index",
-  "types": "lib/index",
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
