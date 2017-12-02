@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { BoardComponent } from './board.component';
 import { BoardRowComponent } from './boardRow.component';
 import { BoardCellComponent } from './boardCell.component';
+import {SocketService} from "./services/socket.service";
+
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { BoardCellComponent } from './boardCell.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
