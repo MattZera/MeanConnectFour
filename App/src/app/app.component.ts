@@ -10,11 +10,11 @@ import {Observable} from "rxjs/Observable";
 
 
 export class AppComponent implements OnInit {
+  title = 'Connect Four';
 
   constructor(private socket: SocketService) { }
 
   ngOnInit() {
     this.socket.messages("connect").subscribe(()=>console.log("connected"));
   }
-
 }
