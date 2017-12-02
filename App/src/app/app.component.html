@@ -6,13 +6,13 @@
 </div>
 
 <div class="form">
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
+  <move-button [callback]="handleClick.bind(this)" [column]=0></move-button>
+  <move-button [callback]="handleClick.bind(this)" [column]=1></move-button>
+  <move-button [callback]="handleClick.bind(this)" [column]=2></move-button>
+  <move-button [callback]="handleClick.bind(this)" [column]=3></move-button>
+  <move-button [callback]="handleClick.bind(this)" [column]=4></move-button>
+  <move-button [callback]="handleClick.bind(this)" [column]=5></move-button>
+  <move-button [callback]="handleClick.bind(this)" [column]=6></move-button>
 </div>
 <div class="board-container">
   <board></board>

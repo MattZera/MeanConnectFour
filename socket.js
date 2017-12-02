@@ -4,12 +4,15 @@
 
 const socketio = require('socket.io');
 
-module.exports = function(server){
-    let io = socketio(server);
+module.exports = function (server) {
+  let io = socketio(server);
 
-    io.on('connection', function(client){
-        console.log("connected");
+  io.on('connection', (client) => {
+    console.log("connected");
+    client.on('click', (data) => {
+      console.log('clicked', data);
     });
+  });
 
-    return io;
+  return io;
 };
