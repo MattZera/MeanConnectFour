@@ -1,5 +1,7 @@
 import { AppPage } from './app.po';
 
+import { expect } from 'chai';
+
 describe('app App', () => {
   let page: AppPage;
 
@@ -9,6 +11,6 @@ describe('app App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).to.equal('Welcome to app!');
   });
 });
