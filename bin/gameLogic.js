@@ -15,16 +15,16 @@ function checkWin(gameBoard, move, player) {
   });
 
   // Get the maximum rank of all directions
-  const leftDiag = ranks["ul"] + ranks["dr"] + 1>= 4;
-  const rightDiag = ranks["dl"] + ranks["ur"] + 1>= 4;
-  const horiz = ranks["l"] + ranks["r"] + 1>= 4;
+  const leftDiag = ranks["ul"] + ranks["dr"] + 1 >= 4;
+  const rightDiag = ranks["dl"] + ranks["ur"] + 1 >= 4;
+  const horiz = ranks["l"] + ranks["r"] + 1 >= 4;
   const down = ranks["d"] + 1 >= 4;
   return leftDiag || rightDiag || horiz || down;
 }
 
 function dirRank(id, dir, row, col, rank, initial, board) {
   let move = false;
-  
+
   // Move in direction if possible
   switch (dir) {
     case "ul":
@@ -34,14 +34,14 @@ function dirRank(id, dir, row, col, rank, initial, board) {
         col--;
       }
       break;
-    
+
     case "l":
       if (col != 0) {
         move = true;
         col--;
       }
       break;
-      
+
     case "dl":
       if (row != 5 && col != 0) {
         move = true;
@@ -49,14 +49,14 @@ function dirRank(id, dir, row, col, rank, initial, board) {
         col--;
       }
       break;
-      
+
     case "d":
       if (row != 5) {
         move = true;
         row++;
       }
       break;
-      
+
     case "dr":
       if (row != 5 && col != 6) {
         move = true;
@@ -64,14 +64,14 @@ function dirRank(id, dir, row, col, rank, initial, board) {
         col++;
       }
       break;
-      
+
     case "r":
       if (col != 6) {
         move = true;
         col++;
       }
       break;
-      
+
     case "ur":
       if (row != 0 && col != 6) {
         move = true;
@@ -80,12 +80,12 @@ function dirRank(id, dir, row, col, rank, initial, board) {
       }
       break;
   }
-  
+
   // determine initial piece
   if (initial == -1 && move) {
     initial = board[row][col];
   }
-  
+
   // didn't hit edge
   if (move) {
     // Recursively add to rank based on pieces seen
@@ -93,7 +93,7 @@ function dirRank(id, dir, row, col, rank, initial, board) {
       return dirRank(id, dir, row, col, rank + 1, initial, board);
     }
   }
-  
+
   return rank;
 }
 
