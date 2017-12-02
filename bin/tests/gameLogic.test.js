@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const checkWin = require('../gameLogic.js').checkWin;
+const checkWin = require('../gameLogic').checkWin;
 
 describe("./gameLogic", () => {
   describe("for checkWin", () => {

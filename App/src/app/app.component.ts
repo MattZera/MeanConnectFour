@@ -25,7 +25,9 @@ export class AppComponent implements OnInit {
   constructor(private socket: SocketService) { }
 
   ngOnInit() {
-    this.socket.messages("connect").subscribe(() => console.log("connected"));
+    this.socket.messages("connect").subscribe(() => {
+      console.log("connected")
+    });
   }
 
   handleClick(data) {

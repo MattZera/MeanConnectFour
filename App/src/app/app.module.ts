@@ -17,7 +17,6 @@ import { SocketService } from "./services/socket.service";
     BoardRowComponent
   ],
   entryComponents: [
-    BoardComponent,
     BoardCellComponent,
     BoardRowComponent
   ],

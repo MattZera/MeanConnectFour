@@ -1,4 +1,4 @@
-const Node = require("./moveNode.js").Node;
+const Node = require("./moveNode").Node;
 
 /**
  * Simple tree used to keep track of all moves
