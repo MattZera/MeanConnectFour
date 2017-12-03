@@ -12,7 +12,7 @@ export class MoveButton {
   @Input() callback: Function;
   @Input() column: number;
   @Input() player: number;
-  @Input() active = () => {};
+  @Input() active = () => { };
 }
 
 @Component({
@@ -24,6 +24,7 @@ export class MoveButton {
 export class AppComponent implements OnInit {
   title = 'Connect Four';
   player = 1;
+  columns = [0, 1, 2, 3, 4, 5, 6];
   board = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],

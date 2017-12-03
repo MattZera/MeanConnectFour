@@ -6,13 +6,9 @@
 </div>
 
 <div class="form">
-  <move-button [callback]="handleClick.bind(this)" [column]=0 [player]="player" [active]="isActive.bind(this)"></move-button>
-  <move-button [callback]="handleClick.bind(this)" [column]=1 [player]="player" [active]="isActive.bind(this)"></move-button>
-  <move-button [callback]="handleClick.bind(this)" [column]=2 [player]="player" [active]="isActive.bind(this)"></move-button>
-  <move-button [callback]="handleClick.bind(this)" [column]=3 [player]="player" [active]="isActive.bind(this)"></move-button>
-  <move-button [callback]="handleClick.bind(this)" [column]=4 [player]="player" [active]="isActive.bind(this)"></move-button>
-  <move-button [callback]="handleClick.bind(this)" [column]=5 [player]="player" [active]="isActive.bind(this)"></move-button>
-  <move-button [callback]="handleClick.bind(this)" [column]=6 [player]="player" [active]="isActive.bind(this)"></move-button>
+  <ng-container *ngFor="let column of columns">
+    <move-button [callback]="handleClick.bind(this)" [column]=column [player]="player" [active]="isActive.bind(this)"></move-button>
+  </ng-container>
 </div>
 <div class="board-container">
   <board [board]="board"></board>
