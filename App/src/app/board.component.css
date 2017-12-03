@@ -14,7 +14,18 @@
   width: 90%;
   height: 90%;
   border-radius: 100%;
+}
+
+.player0 {
   background-color: #353535;
+}
+
+.player1 {
+  background-color: #fd4f57;
+}
+
+.player2 {
+  background-color: #16CBC4;
 }
 
 @media only screen and (min-width : 370px) and (max-width : 715px) {

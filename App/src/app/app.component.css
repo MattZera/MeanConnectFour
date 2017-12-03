@@ -29,8 +29,24 @@
   border-radius: 100%;
 }
 
+.player1 {
+  background-color: #fd4f57;
+}
+
+.player2 {
+  background-color: #16CBC4;
+}
+
 .coin:hover {
   opacity: 1;
+}
+
+.active {
+  visibility: visible;
+}
+
+.inactive {
+  visibility: collapse;
 }
 
 h1 {
