@@ -8,10 +8,7 @@ import {Observable} from "rxjs/Observable";
   styleUrls: ['./app.component.css']
 })
 
-
 export class AppComponent implements OnInit {
-  title = 'Connect Four';
-
   constructor(private socket: SocketService) { }
 
   ngOnInit() {

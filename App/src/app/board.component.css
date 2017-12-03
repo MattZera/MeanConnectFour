@@ -2,7 +2,6 @@
   width: 280px;
   height: 240px;
   margin: 0 auto;
-  background-color: #aaaaaa;
 }
 
 .board td {
@@ -15,8 +14,7 @@
   width: 90%;
   height: 90%;
   border-radius: 100%;
-  border: 1px solid black;
-  background-color: #666666;
+  background-color: #353535;
 }
 
 @media only screen and (min-width : 370px) and (max-width : 715px) {

@@ -1,3 +1,17 @@
+#title {
+  font-size: 200%;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+#connect {
+  color: #fd4f57;
+}
+
+#four {
+  color: #16CBC4;
+}
+
 .form {
   width: 280px;
   height: 40px;
@@ -8,7 +22,7 @@
 
 .coin {
   opacity: 0;
-  background-color: red;
+  background-color: #fd4f57;
   margin: auto;
   width: 36px;
   height: 90%;
@@ -21,9 +35,14 @@
 
 h1 {
   font-size: 100%;
+  color: #f7f7f7;
 }
 
 @media only screen and (min-width : 370px) and (max-width : 715px) {
+  #title {
+    font-size: 250%;
+  }
+
   .form {
     width: 350px;
     height: 50px;
@@ -35,6 +54,10 @@ h1 {
 }
 
 @media only screen and (min-width : 716px) {
+  #title {
+    font-size: 500%;
+  }
+
   .form {
     width: 700px;
     height: 100px;
