@@ -1,11 +1,4 @@
-import {
-  Component, ComponentFactory, ComponentRef,
-  ComponentFactoryResolver, ViewContainerRef,
-  ViewChild, OnInit, OnDestroy, OnChanges,
-  ReflectiveInjector, Input
-} from '@angular/core';
-
-//import { BoardRowComponent } from './boardRow.component';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'board',
@@ -13,6 +6,6 @@ import {
   styleUrls: ['./board.component.css']
 })
 
-export class BoardComponent  {
+export class BoardComponent {
   @Input() board: number[][];
 }
