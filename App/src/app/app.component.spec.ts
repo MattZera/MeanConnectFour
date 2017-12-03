@@ -2,8 +2,6 @@ import { TestBed, async } from '@angular/core/testing';
 import { AppComponent, MoveButton } from './app.component';
 import { SocketService } from "./services/socket.service";
 import { BoardComponent } from './board.component';
-import { BoardRowComponent } from './boardRow.component';
-import { BoardCellComponent } from './boardCell.component';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 describe('AppComponent', () => {
@@ -12,18 +10,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         MoveButton,
-        BoardComponent,
-        BoardRowComponent,
-        BoardCellComponent
+        BoardComponent
       ],
       providers: [SocketService],
-    }).overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [
-          BoardRowComponent,
-          BoardCellComponent
-        ]
-      }
     });
   });
 
