@@ -1,0 +1,9 @@
+<table class="board">
+  <tbody>
+    <tr *ngFor="let row of board">
+      <td *ngFor="let player of row">
+        <div class="board-hole player{{player}}"></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
