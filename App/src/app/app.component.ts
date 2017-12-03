@@ -32,6 +32,9 @@ export class AppComponent implements OnInit {
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0]
   ];
+  animate = false;
+  row = 0;
+  col = 0;
 
   constructor(private socket: SocketService) { }
 
@@ -50,6 +53,9 @@ export class AppComponent implements OnInit {
       console.log('response', data);
       this.board = data.board;
       this.player = data.player;
+      this.animate = true;
+      this.row = data.moveData.row;
+      this.col = data.moveData.col;
     });
   }
 

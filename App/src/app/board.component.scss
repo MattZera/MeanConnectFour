@@ -1,0 +1,89 @@
+@mixin widthHeight($columns, $rows) {
+  $cell-size: 40px;
+  width: $cell-size * $columns;
+  height: $cell-size * $rows;
+
+  @media only screen and (min-width: 370px) and (max-width: 715px) {
+    $cell-size: 50px;
+    width: $cell-size * $columns;
+    height: $cell-size * $rows;
+  }
+
+  @media only screen and (min-width: 716px) {
+    $cell-size: 100px;
+    width: $cell-size * $columns;
+    height: $cell-size * $rows;
+  }
+}
+
+$cell-size: 40px;
+$board-color: #595959;
+
+.board {
+  @include widthHeight(7, 6);
+  margin: 0 auto;
+  background-color: #353535;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+}
+
+.row {
+  background-color: transparent;
+  @include widthHeight(7, 1);
+
+  &:after {
+    content: '';
+    @include widthHeight(7, 1);
+    position: absolute;
+    left: 0;
+    background-image: radial-gradient(transparent 0, transparent $cell-size*.5*.9, $board-color $cell-size*.5*.9+1px, $board-color $cell-size);
+    background-size: $cell-size $cell-size;
+    background-position: 0 0;
+  }
+}
+
+.board-hole {
+  margin: $cell-size - $cell-size*.97;
+  @include widthHeight(.94, .94);
+  border-radius: 100%;
+  position: absolute;
+}
+
+.player0 {
+  background-color: transparent;
+}
+
+.player1 {
+  background-color: #fd4f57;
+}
+
+.player2 {
+  background-color: #16CBC4;
+}
+
+@media only screen and (min-width: 370px) and (max-width: 715px) {
+  $cell-size: 50px;
+  
+  .row:after {
+    background-image: radial-gradient(transparent 0, transparent $cell-size*.5*.9, $board-color $cell-size*.5*.9+1px, $board-color $cell-size);
+    background-size: $cell-size $cell-size;
+  }
+
+  .board-hole {
+    margin: $cell-size - $cell-size*.97;
+  }
+}
+
+@media only screen and (min-width: 716px) {
+  $cell-size: 100px;
+  
+  .row:after {
+    background-image: radial-gradient(transparent 0, transparent $cell-size*.5*.9, $board-color $cell-size*.5*.9+1px, $board-color $cell-size);
+    background-size: $cell-size $cell-size;
+  }
+
+  .board-hole {
+    margin: $cell-size - $cell-size*.97;
+  }
+}

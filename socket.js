@@ -38,19 +38,19 @@ module.exports = function (server) {
     client.on('click', (data) => {
       console.log('clicked', data);
       console.log(board);
-      const win = checkWin(board, data, player);
+      const moveData = checkWin(board, data, player);
 
-      console.log(win);
+      console.log(moveData);
       console.log(board);
-      if (win || isTie(board)) {
+      if (moveData.win || isTie(board)) {
         setup(client);
       } else {
         player = 2 - player + 1;
 
         client.emit('response', {
           player: player,
-          win: win,
-          board: board
+          board: board,
+          moveData
         });
       }
     });
