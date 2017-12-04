@@ -25,16 +25,17 @@ export class AppComponent implements OnInit {
   player = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
   board = [
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0]
   ];
-  animate = false;
-  row = 0;
-  col = 0;
+  animate: boolean;
+  row = -1;
+  col = -1;
 
   constructor(private socket: SocketService) { }
 
@@ -45,13 +46,13 @@ export class AppComponent implements OnInit {
 
     this.socket.receive('setup', (data) => {
       console.log('setup', data);
-      this.board = data.board;
+      this.board = this.transpose(data.board);
       this.player = data.player;
     });
 
     this.socket.receive('response', (data) => {
       console.log('response', data);
-      this.board = data.board;
+      this.board = this.transpose(data.board);
       this.player = data.player;
       this.animate = true;
       this.row = data.moveData.row;
@@ -64,10 +65,18 @@ export class AppComponent implements OnInit {
   }
 
   isActive(column) {
-    if (this.board[0][column] !== 0) {
+    if (this.board[column][0] !== 0) {
       return "inactive";
     } else {
       return "active";
     }
+  }
+
+  transpose(board) {
+    return board[0].map(function (col, c) {
+      return board.map(function (row, r) {
+        return board[r][c];
+      });
+    });
   }
 }

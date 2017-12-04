@@ -9,12 +9,21 @@ import { Component, Input } from '@angular/core';
 export class BoardComponent {
   @Input() board: number[][];
   @Input() animate: boolean;
-  @Input() row: number;
-  @Input() col: number;
+  @Input() animateRow: number;
+  @Input() animateCol: number;
 
-  width = 100;
+  width: number = this.onResize();
 
   onResize() {
-    this.width = document.getElementsByClassName("row").item(0).clientHeight;
+    const windowWidth = window.innerWidth;
+    this.width = 100;
+
+    if (windowWidth <= 370) {
+      this.width = 40;
+    } else if (windowWidth > 370 && windowWidth <= 715) {
+      this.width = 50;
+    }
+    
+    return this.width;
   }
 }
