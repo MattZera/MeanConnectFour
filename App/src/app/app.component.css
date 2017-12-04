@@ -23,7 +23,7 @@
 }
 
 .coin {
-  opacity: 0;
+  opacity: 0.25;
   background-color: #fd4f57;
   margin: auto;
   width: 36px;

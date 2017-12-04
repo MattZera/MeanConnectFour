@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
   animate: boolean;
   row = -1;
   col = -1;
+  endGame = false;
 
   constructor(private socket: SocketService) { }
 
@@ -45,18 +46,30 @@ export class AppComponent implements OnInit {
     });
 
     this.socket.receive('setup', (data) => {
-      console.log('setup', data);
       this.board = this.transpose(data.board);
       this.player = data.player;
+      this.animate = false;
+      this.row = -1;
+      this.col = -1;
+      this.endGame = false;
     });
 
     this.socket.receive('response', (data) => {
       console.log('response', data);
       this.board = this.transpose(data.board);
-      this.player = data.player;
+      this.player = data.nextPlayer;
       this.animate = true;
       this.row = data.moveData.row;
       this.col = data.moveData.col;
+
+      if (data.win === "win"){
+        this.endGame = true;
+        // do something on win
+        // data.winningPlayer available
+      } else if (data.win === "tie") {
+        this.endGame = true;
+        // do something on tie
+      }
     });
   }
 
@@ -65,7 +78,7 @@ export class AppComponent implements OnInit {
   }
 
   isActive(column) {
-    if (this.board[column][0] !== 0) {
+    if (this.board[column][0] !== 0 || this.endGame) {
       return "inactive";
     } else {
       return "active";

@@ -36,23 +36,27 @@ module.exports = function (server) {
     setup(client);
 
     client.on('click', (data) => {
-      console.log('clicked', data);
-      console.log(board);
       const moveData = checkWin(board, data, player);
 
-      console.log(moveData);
-      console.log(board);
-      if (moveData.win || isTie(board)) {
-        setup(client);
-      } else {
-        player = 2 - player + 1;
+      data = {
+        win: "no",
+        board: board,
+        nextPlayer: 2 - player + 1,
+        moveData: {
+          row: moveData.row,
+          col: moveData.col
+        }
+      };
 
-        client.emit('response', {
-          player: player,
-          board: board,
-          moveData
-        });
+      if (moveData.win) {
+        data.win = "win";
+        data.winningPlayer = player;
+      } else if (isTie(board)) {
+        data.win = "tie";
       }
+
+      player = data.nextPlayer;
+      client.emit('response', data);
     });
   });
 
