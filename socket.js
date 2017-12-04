@@ -6,10 +6,7 @@ const socketio = require('socket.io');
 const checkWin = require('./bin/gameLogic').checkWin;
 const isTie = require('./bin/gameLogic').isTie;
 
-let board = [];
-let player = 1;
-
-function setup(client) {
+function setup(client, board, player) {
   board = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
@@ -32,27 +29,40 @@ module.exports = function (server) {
 
   io.on('connection', (client) => {
     console.log("connected");
+    let board = [
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ];
+    let player = 1;
 
-    setup(client);
+    setup(client, board, player);
 
     client.on('click', (data) => {
-      console.log('clicked', data);
-      console.log(board);
-      const win = checkWin(board, data, player);
+      const moveData = checkWin(board, data, player);
 
-      console.log(win);
-      console.log(board);
-      if (win || isTie(board)) {
-        setup(client);
-      } else {
-        player = 2 - player + 1;
+      data = {
+        win: "no",
+        board: board,
+        nextPlayer: 2 - player + 1,
+        moveData: {
+          row: moveData.row,
+          col: moveData.col
+        }
+      };
 
-        client.emit('response', {
-          player: player,
-          win: win,
-          board: board
-        });
+      if (moveData.win) {
+        data.win = "win";
+        data.winningPlayer = player;
+      } else if (isTie(board)) {
+        data.win = "tie";
       }
+
+      player = data.nextPlayer;
+      client.emit('response', data);
     });
   });
 

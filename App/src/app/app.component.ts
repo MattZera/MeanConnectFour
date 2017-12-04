@@ -22,17 +22,21 @@ export class MoveButton {
 })
 
 export class AppComponent implements OnInit {
-  title = 'Connect Four';
   player = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
   board = [
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0]
   ];
+  animate: boolean;
+  row = -1;
+  col = -1;
+  endGame = false;
 
   constructor(private socket: SocketService) { }
 
@@ -42,15 +46,30 @@ export class AppComponent implements OnInit {
     });
 
     this.socket.receive('setup', (data) => {
-      console.log('setup', data);
-      this.board = data.board;
+      this.board = this.transpose(data.board);
       this.player = data.player;
+      this.animate = false;
+      this.row = -1;
+      this.col = -1;
+      this.endGame = false;
     });
 
     this.socket.receive('response', (data) => {
       console.log('response', data);
-      this.board = data.board;
-      this.player = data.player;
+      this.board = this.transpose(data.board);
+      this.player = data.nextPlayer;
+      this.animate = true;
+      this.row = data.moveData.row;
+      this.col = data.moveData.col;
+
+      if (data.win === "win"){
+        this.endGame = true;
+        // do something on win
+        // data.winningPlayer available
+      } else if (data.win === "tie") {
+        this.endGame = true;
+        // do something on tie
+      }
     });
   }
 
@@ -59,10 +78,18 @@ export class AppComponent implements OnInit {
   }
 
   isActive(column) {
-    if (this.board[0][column] !== 0) {
+    if (this.board[column][0] !== 0 || this.endGame) {
       return "inactive";
     } else {
       return "active";
     }
+  }
+
+  transpose(board) {
+    return board[0].map(function (col, c) {
+      return board.map(function (row, r) {
+        return board[r][c];
+      });
+    });
   }
 }

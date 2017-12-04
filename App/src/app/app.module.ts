@@ -5,7 +5,6 @@ import { AppComponent, MoveButton } from './app.component';
 import { BoardComponent } from './board.component';
 import { SocketService } from "./services/socket.service";
 
-
 @NgModule({
   declarations: [
     AppComponent,
