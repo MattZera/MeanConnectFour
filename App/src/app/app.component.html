@@ -1,13 +1,17 @@
 <div style="text-align:center">
   <h1 id="title">
-    <span id="connect">CONNECT</span><span id="four">FOUR</span>
+    <span id="connect">CONNECT</span>
+    <span id="four">FOUR</span>
   </h1>
 </div>
 
 <div class="form">
-  <ng-container *ngFor="let column of columns">
-    <move-button [callback]="handleClick.bind(this)" [column]=column [player]="player" [active]="isActive.bind(this)"></move-button>
-  </ng-container>
+  <ng-template *ngIf="player == nextPlayer;then buttons"></ng-template>
+  <ng-template #buttons>
+    <ng-container *ngFor="let column of columns">
+      <move-button [callback]="handleClick.bind(this)" [column]=column [player]="player" [active]="isActive.bind(this)"></move-button>
+    </ng-container>
+  </ng-template>
 </div>
 <div class="board-container">
   <board [board]="board" [animate]="animate" [animateRow]="row" [animateCol]="col"></board>
