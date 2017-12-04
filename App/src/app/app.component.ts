@@ -22,7 +22,8 @@ export class MoveButton {
 })
 
 export class AppComponent implements OnInit {
-  player = 1;
+  player = 0;
+  nextPlayer = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
   board = [
     [0, 0, 0, 0, 0, 0],
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
     this.socket.receive('setup', (data) => {
       this.board = this.transpose(data.board);
       this.player = data.player;
+      this.nextPlayer = 1;
       this.animate = false;
       this.row = -1;
       this.col = -1;
@@ -57,7 +59,7 @@ export class AppComponent implements OnInit {
     this.socket.receive('response', (data) => {
       console.log('response', data);
       this.board = this.transpose(data.board);
-      this.player = data.nextPlayer;
+      this.nextPlayer = data.nextPlayer;
       this.animate = true;
       this.row = data.moveData.row;
       this.col = data.moveData.col;
