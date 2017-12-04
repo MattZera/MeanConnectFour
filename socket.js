@@ -6,10 +6,7 @@ const socketio = require('socket.io');
 const checkWin = require('./bin/gameLogic').checkWin;
 const isTie = require('./bin/gameLogic').isTie;
 
-let board = [];
-let player = 1;
-
-function setup(client) {
+function setup(client, board, player) {
   board = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
@@ -32,8 +29,17 @@ module.exports = function (server) {
 
   io.on('connection', (client) => {
     console.log("connected");
+    let board = [
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ];
+    let player = 1;
 
-    setup(client);
+    setup(client, board, player);
 
     client.on('click', (data) => {
       const moveData = checkWin(board, data, player);
