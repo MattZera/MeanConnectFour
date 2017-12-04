@@ -16,7 +16,18 @@
   height: 90%;
   border-radius: 100%;
   border: 1px solid black;
+}
+
+.player0 {
   background-color: #666666;
+}
+
+.player1 {
+  background-color: red;
+}
+
+.player2 {
+  background-color: blue;
 }
 
 @media only screen and (min-width : 370px) and (max-width : 715px) {

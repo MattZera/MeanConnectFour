@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const AILogic = require('../aiLogic.js').AILogic;
+const AILogic = require('../aiLogic').AILogic;
 
 describe("./aiLogic", () => {
   describe("for AILogic", () => {

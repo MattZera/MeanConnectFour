@@ -1,4 +1,4 @@
-const MinMaxTree = require("./minMaxTree.js").MinMaxTree;
+const MinMaxTree = require("./minMaxTree").MinMaxTree;
 const MoveNode = require("./moveNode").MoveNode;
 
 class AILogic {

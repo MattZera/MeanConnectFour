@@ -5,8 +5,11 @@
   "scripts": {
     "start": "npm run build:live",
     "postinstall": "cd App && npm install",
+    "dev": "concurrently \"yarn start\" \"cd App && yarn build\"",
     "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./bin/www",
-    "test": "cross-env NODE_ENV=test mocha --opts server/tests/mocha.opts \"./bin/**/*.test.js*\""
+    "test": "yarn test:server && yarn test:client",
+    "test:server": "mocha --opts server/tests/mocha.opts \"./bin/**/*.test.js*\"",
+    "test:client": "cd App && yarn test"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

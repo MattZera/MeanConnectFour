@@ -1,3 +1,13 @@
+function isTie(gameBoard) {
+  for (col = 0; col < 7; col++) {
+    if (gameBoard[0][col] === 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 function checkWin(gameBoard, move, player) {
   let row;
   for (row = 5; row >= 0; row--) {
@@ -98,5 +108,6 @@ function dirRank(id, dir, row, col, rank, initial, board) {
 }
 
 module.exports = {
-  checkWin: checkWin
+  checkWin: checkWin,
+  isTie: isTie
 }
