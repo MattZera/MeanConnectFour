@@ -48,7 +48,10 @@ function makeMove(client, board, move, player) {
   }
 
   client.emit('response', data);
-  return data.nextPlayer;
+  return {
+    player: data.nextPlayer,
+    win: data.win
+  };
 }
 
 module.exports = function (server) {
@@ -73,15 +76,18 @@ module.exports = function (server) {
 
     if (player == 2) {
       const move = ai(board, aiPlayer);
-      player = makeMove(client, board, move, aiPlayer);
+      const info = makeMove(client, board, move, aiPlayer);
+      player = info.player;
     }
 
     client.on('click', (data) => {
-      player = makeMove(client, board, data, player);
+      const info = makeMove(client, board, data, player);
+      player = info.player;
 
-      if (player == aiPlayer) {
-        const move = ai(board, player);
-        player = makeMove(client, board, move, player);
+      if (player == aiPlayer && info.win === "no") {
+        const move = ai(board, aiPlayer);
+        const info = makeMove(client, board, move, aiPlayer);
+        player = info.player;
       }
     });
   });
