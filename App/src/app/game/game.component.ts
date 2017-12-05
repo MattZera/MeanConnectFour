@@ -48,10 +48,12 @@ export class GameComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.socket.messages("connect").subscribe(() => {
+    this.socket.getMessagesFor("connect").subscribe(() => {
       console.log("connected")
     });
 
+
+    this.socket.getMessagesFor("setup").su
     this.socket.receive('setup', (data) => {
       this.board = this.transpose(data.board);
       this.player = data.player;

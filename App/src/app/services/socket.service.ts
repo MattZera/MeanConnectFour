@@ -42,7 +42,7 @@ export class SocketService implements OnDestroy {
     this.sendSubject.complete();
   }
 
-  public messages(label: string): Observable<any> {
+  public getMessagesFor(label: string): Observable<any> {
     //returns a new observable mapped to a function
     if (!this.connections[label]) {
       this.connections[label] = this.connectionObservable
