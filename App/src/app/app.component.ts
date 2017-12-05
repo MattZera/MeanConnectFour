@@ -11,6 +11,5 @@ import { Observable } from "rxjs/Observable";
 export class AppComponent implements OnInit {
   constructor(private socket: SocketService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 }

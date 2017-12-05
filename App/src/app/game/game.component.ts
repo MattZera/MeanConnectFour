@@ -1,7 +1,6 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {SocketService} from "../services/socket.service";
-
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { SocketService } from "../services/socket.service";
 
 @Component({
   selector: 'app-game',
@@ -10,9 +9,7 @@ import {SocketService} from "../services/socket.service";
 })
 
 export class GameComponent implements OnInit, OnDestroy {
-
-
-  player = 1;
+  player = 0;
   nextPlayer = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
   board = [
@@ -29,11 +26,9 @@ export class GameComponent implements OnInit, OnDestroy {
   col = -1;
   endGame = false;
 
-
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private socket: SocketService) { }
-
+    private router: Router,
+    private socket: SocketService) { }
 
   ngOnInit() {
     this.socket.getMessagesFor("connect").subscribe(() => {
@@ -44,14 +39,17 @@ export class GameComponent implements OnInit, OnDestroy {
       console.log('response', data);
 
       this.board = this.transpose(data.board);
-      this.player = data.player;
-      this.animate = data.lastMove !== null;
-      if (data.lastMove !== null){
+
+      if (data.lastMove !== null) {
+        this.animate = true;
+        this.nextPlayer = data.player;
         this.row = data.lastMove.row;
         this.col = data.lastMove.col;
+      } else {
+        this.player = data.player;
       }
 
-      if (data.winner !== null){
+      if (data.winner !== null) {
         this.endGame = true;
         // do something on win
         // data.winningPlayer available
@@ -62,8 +60,7 @@ export class GameComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void { }
 
   handleClick(data) {
     this.socket.send("click", data);
@@ -84,5 +81,4 @@ export class GameComponent implements OnInit, OnDestroy {
       });
     });
   }
-
 }
