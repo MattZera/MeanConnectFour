@@ -58,7 +58,10 @@ module.exports = function (server) {
   let io = socketio(server);
 
   io.on('connection', (client) => {
+
     console.log("connected");
+
+
     let board = [
       [0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
