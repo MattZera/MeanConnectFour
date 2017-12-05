@@ -1,9 +1,13 @@
 <div class="form">
-  <ng-template *ngIf="player == nextPlayer;then buttons"></ng-template>
+  <ng-template *ngIf="player == nextPlayer && !winner;then buttons else waiting"></ng-template>
   <ng-template #buttons>
     <ng-container *ngFor="let column of columns">
       <div class="coin player{{player}} {{isActive(column)}}" (click)="handleClick(column)"></div>
     </ng-container>
+  </ng-template>
+  <ng-template #waiting *ngIf="!winner;else end"></ng-template>
+  <ng-template #end>
+    <div class="message player{{winner}}">{{message}}</div>
   </ng-template>
 </div>
 <div class="board-container">

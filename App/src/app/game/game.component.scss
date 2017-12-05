@@ -19,26 +19,46 @@ $cell-size: 40px;
   width: $cell-size * 0.9;
   height: 90%;
   border-radius: 100%;
+
+  &.player1 {
+    background-color: $red;
+  }
+  
+  &.player2 {
+    background-color: $blue;
+  }
+  
+  &.active {
+    visibility: visible;
+  }
+  
+  &.inactive {
+    visibility: collapse;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
-.player1 {
-  background-color: $red;
-}
+.message {
+  font-size: 160%;
+  font-family: 'Poppins', sans-serif;
+  line-height: $cell-size;
+  margin: auto;
+  background-color: transparent;
 
-.player2 {
-  background-color: $blue;
-}
-
-.coin:hover {
-  opacity: 1;
-}
-
-.active {
-  visibility: visible;
-}
-
-.inactive {
-  visibility: collapse;
+  &.player1 {
+    color: $red;
+  }
+  
+  &.player2 {
+    color: $blue;
+  }
+  
+  &.player3 {
+    color: $white;
+  }
 }
 
 @include media('screen', '>phone', '<=tablet') {
@@ -52,6 +72,11 @@ $cell-size: 40px;
   .coin {
     width: $cell-size * 0.9;
   }
+
+  .message {
+    font-size: 200%;
+    line-height: $cell-size;
+  }
 }
 
 @include media('screen', '>tablet') {
@@ -64,5 +89,10 @@ $cell-size: 40px;
   
   .coin {
     width: $cell-size * 0.9;
+  }
+
+  .message {
+    font-size: 400%;
+    line-height: $cell-size;
   }
 }

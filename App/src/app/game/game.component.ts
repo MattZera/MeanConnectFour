@@ -24,7 +24,8 @@ export class GameComponent implements OnInit, OnDestroy {
   animate: boolean;
   row = -1;
   col = -1;
-  endGame = false;
+  winner: number;
+  message = "";
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -50,12 +51,14 @@ export class GameComponent implements OnInit, OnDestroy {
       }
 
       if (data.winner !== null) {
-        this.endGame = true;
-        // do something on win
-        // data.winningPlayer available
-      } else if (data.winner === 3) {
-        this.endGame = true;
-        // do something on tie
+        this.winner = data.winner;
+        if (data.winner == this.player) {
+          this.message = "You Win!";
+        } else if (data.winner == 3) {
+          this.message = "You Tie!";
+        } else {
+          this.message = "You Lose!";
+        }
       }
     });
   }
@@ -67,7 +70,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   isActive(column) {
-    if (this.board[column][0] !== 0 || this.endGame) {
+    if (this.board[column][0] !== 0) {
       return "inactive";
     } else {
       return "active";
