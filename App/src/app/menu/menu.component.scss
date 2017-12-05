@@ -1,31 +1,61 @@
+@import '../../constants';
+
+$cell-size: 40px;
+
 #menu {
   text-align: center;
-  font-size: 150%;
+  font-size: 160%;
   font-family: 'Poppins', sans-serif;
-  margin: 0;
+  margin: auto;
+  width: $cell-size *  7;
 
-  ul {
-    list-style-type: none;
+  .menu-item {
+    height: $cell-size;
+    margin: ($cell-size / 2) auto;
+    line-height: $cell-size;
+    border-radius: $cell-size / 2;
+    background-color: $blue;
+    color: $white;
 
-    li {
-      border-radius: 20px;
-      margin: 20px;
-      background-color: #16CBC4;
-      &:hover {
-        background-color: #fd4f57;
-      }
+    &:hover {
+      background-color: $red;
+      cursor: pointer;
+    }
+
+    &:focus {
+      outline: 0;
     }
   }
 }
 
-@media only screen and (min-width : 370px) and (max-width : 715px) {
-  #title {
+@include media('screen', '>phone', '<=tablet') {
+  $cell-size: 50px;
+
+  #menu {
     font-size: 200%;
+    width: $cell-size * 7;
+
+    .menu-item {
+      height: $cell-size;
+      margin: ($cell-size / 2) auto;
+      line-height: $cell-size;
+      border-radius: $cell-size / 2;
+    }
   }
 }
 
-@media only screen and (min-width : 716px) {
+@include media('screen', '>tablet') {
+  $cell-size: 100px;
+  
   #menu {
-    font-size: 300%;
+    font-size: 400%;
+    width: $cell-size * 7;
+
+    .menu-item {
+      height: $cell-size;
+      margin: ($cell-size / 2) auto;
+      line-height: $cell-size;
+      border-radius: $cell-size / 2;
+    }
   }
 }

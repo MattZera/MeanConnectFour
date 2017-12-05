@@ -1,16 +1,14 @@
 import { TestBed, async } from '@angular/core/testing';
-import { AppComponent} from './app.component';
+import { AppComponent } from './app.component';
 import { SocketService } from "./services/socket.service";
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import {BoardComponent} from "./game/board.component";
-import {MoveButton} from "./game/game.component";
+import { BoardComponent } from "./game/board.component";
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        MoveButton,
         BoardComponent
       ],
       providers: [SocketService],

@@ -1,26 +1,46 @@
+@import '../constants';
+
 #title {
+  width: fit-content;
   font-size: 200%;
   font-family: 'Poppins', sans-serif;
-  margin: 0;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  margin: auto;
+  background-color: transparent;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
 }
 
 #connect {
-  color: #fd4f57;
+  color: $red;
+  background-color: transparent;
 }
 
 #four {
-  color: #16CBC4;
+  color: $blue;
+  background-color: transparent;
 }
 
-
-@media only screen and (min-width : 370px) and (max-width : 715px) {
+@include media('screen', '>phone', '<=tablet') {
   #title {
+    height: 50px;
+    line-height: 50px;
     font-size: 250%;
   }
 }
 
-@media only screen and (min-width : 716px) {
+@include media('screen', '>tablet') {
   #title {
+    height: 100px;
+    line-height: 100px;
     font-size: 500%;
   }
 }

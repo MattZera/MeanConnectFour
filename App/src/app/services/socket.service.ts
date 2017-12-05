@@ -2,10 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import * as socketio from 'socket.io-client';
 import { Observable, Subject } from "rxjs/Rx";
 
-
 @Injectable()
 export class SocketService implements OnDestroy {
-
   private connectionObservable: Observable<any>;
   private connections: any = {};
   private sendSubject: Subject<any>;
@@ -35,7 +33,6 @@ export class SocketService implements OnDestroy {
         }
       }
       )).publishReplay().refCount();
-
   }
 
   ngOnDestroy(): void {

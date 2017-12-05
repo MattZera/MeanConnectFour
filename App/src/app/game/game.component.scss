@@ -1,6 +1,10 @@
+@import '../../constants';
+
+$cell-size: 40px;
+
 .form {
-  width: 280px;
-  height: 40px;
+  width: $cell-size * 7;
+  height: $cell-size;
   display: flex;
   margin: 0 auto;
   justify-content: space-around;
@@ -10,19 +14,19 @@
 
 .coin {
   opacity: 0.25;
-  background-color: #fd4f57;
+  background-color: $red;
   margin: auto;
-  width: 36px;
+  width: $cell-size * 0.9;
   height: 90%;
   border-radius: 100%;
 }
 
 .player1 {
-  background-color: #fd4f57;
+  background-color: $red;
 }
 
 .player2 {
-  background-color: #16CBC4;
+  background-color: $blue;
 }
 
 .coin:hover {
@@ -37,28 +41,28 @@
   visibility: collapse;
 }
 
-@media only screen and (min-width : 370px) and (max-width : 715px) {
+@include media('screen', '>phone', '<=tablet') {
+  $cell-size: 50px;
+
   .form {
-    width: 350px;
-    height: 50px;
+    width: $cell-size * 7;
+    height: $cell-size;
   }
 
   .coin {
-    width: 45px;
+    width: $cell-size * 0.9;
   }
 }
 
-@media only screen and (min-width : 716px) {
+@include media('screen', '>tablet') {
+  $cell-size: 100px;
+  
   .form {
-    width: 700px;
-    height: 100px;
+    width: $cell-size * 7;
+    height: $cell-size;
   }
-
+  
   .coin {
-    width: 90px;
-  }
-
-  h1 {
-    font-size: 200%;
+    width: $cell-size * 0.9;
   }
 }
