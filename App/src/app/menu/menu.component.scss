@@ -1,0 +1,31 @@
+#menu {
+  text-align: center;
+  font-size: 150%;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+
+  ul {
+    list-style-type: none;
+
+    li {
+      border-radius: 20px;
+      margin: 20px;
+      background-color: #16CBC4;
+      &:hover {
+        background-color: #fd4f57;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width : 370px) and (max-width : 715px) {
+  #title {
+    font-size: 200%;
+  }
+}
+
+@media only screen and (min-width : 716px) {
+  #menu {
+    font-size: 300%;
+  }
+}

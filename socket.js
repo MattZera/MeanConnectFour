@@ -58,7 +58,9 @@ module.exports = function (server) {
   let io = socketio(server);
 
   io.on('connection', (client) => {
+
     console.log("connected");
+
     let board = [
       [0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
@@ -90,6 +92,12 @@ module.exports = function (server) {
         player = info.player;
       }
     });
+
+
+    client.on('disconnect', ()=>{
+      "use strict";
+      console.log("disconnect");
+    })
   });
 
   return io;

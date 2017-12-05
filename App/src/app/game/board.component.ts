@@ -23,7 +23,7 @@ export class BoardComponent {
     } else if (windowWidth > 370 && windowWidth <= 715) {
       this.width = 50;
     }
-    
+
     return this.width;
   }
 }
