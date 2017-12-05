@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {SocketService} from "../services/socket.service";
-import {Subscription} from "rxjs/Subscription";
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { SocketService } from "../services/socket.service";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
   selector: 'app-game',
@@ -10,9 +10,7 @@ import {Subscription} from "rxjs/Subscription";
 })
 
 export class GameComponent implements OnInit, OnDestroy {
-
   gameState: Subscription;
-
   player = 0;
   nextPlayer: number = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
@@ -37,9 +35,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.gameState = this.socket.getMessagesFor('gamestate').subscribe((data) => {
-
       console.log('response', data);
-
       this.board = this.transpose(data.board);
 
       if (data.lastMove !== null) {
