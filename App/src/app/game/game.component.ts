@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {SocketService} from "../services/socket.service";
-import {Subscription} from "rxjs/Subscription";
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { SocketService } from "../services/socket.service";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
   selector: 'app-game',
@@ -10,9 +10,7 @@ import {Subscription} from "rxjs/Subscription";
 })
 
 export class GameComponent implements OnInit, OnDestroy {
-
   gameState: Subscription;
-
   player = 0;
   nextPlayer: number = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
@@ -25,10 +23,11 @@ export class GameComponent implements OnInit, OnDestroy {
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0]
   ];
-  animate: boolean;
+  animate = false;
   row = -1;
   col = -1;
-  endGame = false;
+  winner: number = null;
+  message = "";
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -36,9 +35,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.gameState = this.socket.getMessagesFor('gamestate').subscribe((data) => {
-
       console.log('response', data);
-
       this.board = this.transpose(data.board);
 
       if (data.lastMove !== null) {
@@ -51,12 +48,14 @@ export class GameComponent implements OnInit, OnDestroy {
       }
 
       if (data.winner !== null) {
-        this.endGame = true;
-        // do something on win
-        // data.winningPlayer available
-      } else if (data.winner === 3) {
-        this.endGame = true;
-        // do something on tie
+        this.winner = data.winner;
+        if (data.winner == this.player) {
+          this.message = "You Win!";
+        } else if (data.winner == 3) {
+          this.message = "You Tie!";
+        } else {
+          this.message = "You Lose!";
+        }
       }
     });
   }
@@ -70,7 +69,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   isActive(column) {
-    if (this.board[column][0] !== 0 || this.endGame) {
+    if (this.board[column][0] !== 0) {
       return "inactive";
     } else {
       return "active";
@@ -83,5 +82,12 @@ export class GameComponent implements OnInit, OnDestroy {
         return board[r][c];
       });
     });
+  }
+
+  reset() {
+    this.row = -1;
+    this.col = -1;
+    this.winner = null;
+    this.socket.send("reset");
   }
 }

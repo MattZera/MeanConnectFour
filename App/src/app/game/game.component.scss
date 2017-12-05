@@ -19,26 +19,68 @@ $cell-size: 40px;
   width: $cell-size * 0.9;
   height: 90%;
   border-radius: 100%;
+
+  &.player1 {
+    background-color: $red;
+  }
+  
+  &.player2 {
+    background-color: $blue;
+  }
+  
+  &.active {
+    visibility: visible;
+  }
+  
+  &.inactive {
+    visibility: collapse;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
-.player1 {
-  background-color: $red;
+.message {
+  font-size: 160%;
+  font-family: 'Poppins', sans-serif;
+  line-height: $cell-size;
+  margin: auto;
+  background-color: transparent;
+
+  &.player1 {
+    color: $red;
+  }
+  
+  &.player2 {
+    color: $blue;
+  }
+  
+  &.player3 {
+    color: $white;
+  }
 }
 
-.player2 {
+#reset {
+  width: $cell-size * 3;
+  height: $cell-size;
+  margin: ($cell-size / 4) auto;
+  text-align: center;
+  font-size: 160%;
+  font-family: 'Poppins', sans-serif;
+  line-height: $cell-size;
+  border-radius: $cell-size / 2;
   background-color: $blue;
-}
+  color: $white;
 
-.coin:hover {
-  opacity: 1;
-}
+  &:hover {
+    background-color: $red;
+    cursor: pointer;
+  }
 
-.active {
-  visibility: visible;
-}
-
-.inactive {
-  visibility: collapse;
+  &:focus {
+    outline: 0;
+  }
 }
 
 @include media('screen', '>phone', '<=tablet') {
@@ -52,6 +94,21 @@ $cell-size: 40px;
   .coin {
     width: $cell-size * 0.9;
   }
+
+  .message {
+    font-size: 200%;
+    line-height: $cell-size;
+  }
+
+  #reset {
+    width: $cell-size * 3;
+    height: $cell-size;
+    margin: ($cell-size / 4) auto;
+    margin-bottom: 0;
+    font-size: 200%;
+    line-height: $cell-size;
+    border-radius: $cell-size / 2;
+  }
 }
 
 @include media('screen', '>tablet') {
@@ -64,5 +121,19 @@ $cell-size: 40px;
   
   .coin {
     width: $cell-size * 0.9;
+  }
+
+  .message {
+    font-size: 400%;
+    line-height: $cell-size;
+  }
+
+  #reset {
+    width: $cell-size * 3;
+    height: $cell-size;
+    margin: ($cell-size / 4) auto;
+    font-size: 400%;
+    line-height: $cell-size;
+    border-radius: $cell-size / 2;
   }
 }
