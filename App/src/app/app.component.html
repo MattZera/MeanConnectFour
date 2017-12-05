@@ -1,19 +1,10 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-</div>
+<a [routerLink]="['/']">
+  <div style="text-align:center">
+    <h1 id="title">
+      <span id="connect">CONNECT</span>
+      <span id="four">FOUR</span>
+    </h1>
+  </div>
+</a>
 
-<div class="form">
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-  <div class="coin"></div>
-</div>
-<div class="board-container">
-  <board></board>
-</div>
+<router-outlet></router-outlet>

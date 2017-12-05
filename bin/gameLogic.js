@@ -1,8 +1,18 @@
-function checkWin(gameBoard, move, player) {
+function isTie(gameBoard) {
+  for (col = 0; col < 7; col++) {
+    if (gameBoard[0][col] === 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function checkWin(gameBoard, col, player) {
   let row;
   for (row = 5; row >= 0; row--) {
-    if (gameBoard[row][move] === 0) {
-      gameBoard[row][move] = player;
+    if (gameBoard[row][col] === 0) {
+      gameBoard[row][col] = player;
       break;
     }
   }
@@ -11,7 +21,7 @@ function checkWin(gameBoard, move, player) {
   let dirs = ["ul", "l", "dl", "d", "dr", "r", "ur"];
 
   dirs.forEach((dir) => {
-    ranks[dir] = dirRank(player, dir, row, move, 0, -1, gameBoard);
+    ranks[dir] = dirRank(player, dir, row, col, 0, -1, gameBoard);
   });
 
   // Get the maximum rank of all directions
@@ -19,7 +29,11 @@ function checkWin(gameBoard, move, player) {
   const rightDiag = ranks["dl"] + ranks["ur"] + 1 >= 4;
   const horiz = ranks["l"] + ranks["r"] + 1 >= 4;
   const down = ranks["d"] + 1 >= 4;
-  return leftDiag || rightDiag || horiz || down;
+  return {
+    win: leftDiag || rightDiag || horiz || down,
+    row: row,
+    col: col
+  };
 }
 
 function dirRank(id, dir, row, col, rank, initial, board) {
@@ -98,5 +112,6 @@ function dirRank(id, dir, row, col, rank, initial, board) {
 }
 
 module.exports = {
-  checkWin: checkWin
+  checkWin: checkWin,
+  isTie: isTie
 }

@@ -4,23 +4,37 @@
   display: flex;
   margin: 0 auto;
   justify-content: space-around;
+  position: relative;
+  z-index: 1;
 }
 
 .coin {
-  opacity: 0;
-  background-color: red;
+  opacity: 0.25;
+  background-color: #fd4f57;
   margin: auto;
   width: 36px;
   height: 90%;
   border-radius: 100%;
 }
 
+.player1 {
+  background-color: #fd4f57;
+}
+
+.player2 {
+  background-color: #16CBC4;
+}
+
 .coin:hover {
   opacity: 1;
 }
 
-h1 {
-  font-size: 100%;
+.active {
+  visibility: visible;
+}
+
+.inactive {
+  visibility: collapse;
 }
 
 @media only screen and (min-width : 370px) and (max-width : 715px) {

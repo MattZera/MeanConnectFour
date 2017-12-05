@@ -1,0 +1,26 @@
+#title {
+  font-size: 200%;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+#connect {
+  color: #fd4f57;
+}
+
+#four {
+  color: #16CBC4;
+}
+
+
+@media only screen and (min-width : 370px) and (max-width : 715px) {
+  #title {
+    font-size: 250%;
+  }
+}
+
+@media only screen and (min-width : 716px) {
+  #title {
+    font-size: 500%;
+  }
+}
