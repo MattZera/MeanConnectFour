@@ -13,3 +13,6 @@
 <div class="board-container">
   <board [board]="board" [animate]="animate" [animateRow]="row" [animateCol]="col"></board>
 </div>
+<div *ngIf="winner" id="reset" (click)="reset()">
+  Reset
+</div>

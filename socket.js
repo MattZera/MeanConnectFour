@@ -63,21 +63,27 @@ class Game {
   }
 }
 
+function start(client) {
+  let game = new Game();
+
+  client.emit('gamestate', game.gamestate);
+
+  if (game.currentPlayer === 2) {
+    game.currentPlayer = 1;
+    game.move();
+    client.emit('gamestate', game.gamestate);
+  }
+
+  return game;
+}
+
 module.exports = function (server) {
   let io = socketio(server);
 
   io.on('connection', (client) => {
     console.log("connected");
 
-    let game = new Game();
-
-    client.emit('gamestate', game.gamestate);
-
-    if (game.currentPlayer === 2) {
-      game.currentPlayer = 1;
-      game.move();
-      client.emit('gamestate', game.gamestate);
-    }
+    let game = start(client);
 
     client.on('click', (data) => {
       game.move(data);
@@ -87,6 +93,10 @@ module.exports = function (server) {
         game.move();
         client.emit('gamestate', game.gamestate);
       }
+    });
+
+    client.on('reset', () => {
+      game = start(client);
     });
   });
 

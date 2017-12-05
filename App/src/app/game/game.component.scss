@@ -61,6 +61,28 @@ $cell-size: 40px;
   }
 }
 
+#reset {
+  width: $cell-size * 3;
+  height: $cell-size;
+  margin: ($cell-size / 4) auto;
+  text-align: center;
+  font-size: 160%;
+  font-family: 'Poppins', sans-serif;
+  line-height: $cell-size;
+  border-radius: $cell-size / 2;
+  background-color: $blue;
+  color: $white;
+
+  &:hover {
+    background-color: $red;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
 @include media('screen', '>phone', '<=tablet') {
   $cell-size: 50px;
 
@@ -76,6 +98,16 @@ $cell-size: 40px;
   .message {
     font-size: 200%;
     line-height: $cell-size;
+  }
+
+  #reset {
+    width: $cell-size * 3;
+    height: $cell-size;
+    margin: ($cell-size / 4) auto;
+    margin-bottom: 0;
+    font-size: 200%;
+    line-height: $cell-size;
+    border-radius: $cell-size / 2;
   }
 }
 
@@ -94,5 +126,14 @@ $cell-size: 40px;
   .message {
     font-size: 400%;
     line-height: $cell-size;
+  }
+
+  #reset {
+    width: $cell-size * 3;
+    height: $cell-size;
+    margin: ($cell-size / 4) auto;
+    font-size: 400%;
+    line-height: $cell-size;
+    border-radius: $cell-size / 2;
   }
 }

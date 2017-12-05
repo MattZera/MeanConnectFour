@@ -21,10 +21,10 @@ export class GameComponent implements OnInit, OnDestroy {
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0]
   ];
-  animate: boolean;
+  animate = false;
   row = -1;
   col = -1;
-  winner: number;
+  winner: number = null;
   message = "";
 
   constructor(private route: ActivatedRoute,
@@ -83,5 +83,12 @@ export class GameComponent implements OnInit, OnDestroy {
         return board[r][c];
       });
     });
+  }
+
+  reset() {
+    this.row = -1;
+    this.col = -1;
+    this.winner = null;
+    this.socket.send("reset");
   }
 }
