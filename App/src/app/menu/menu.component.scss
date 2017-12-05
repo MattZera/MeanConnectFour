@@ -1,10 +1,8 @@
-@import '../../constants';
-
 $cell-size: 40px;
 
 #menu {
   text-align: center;
-  font-size: 160%;
+  font-size: 150%;
   font-family: 'Poppins', sans-serif;
   margin: auto;
   width: $cell-size *  7;
@@ -14,11 +12,11 @@ $cell-size: 40px;
     margin: ($cell-size / 2) auto;
     line-height: $cell-size;
     border-radius: $cell-size / 2;
-    background-color: $blue;
-    color: $white;
+    background-color: #16CBC4;
+    color: #f7f7f7;
 
     &:hover {
-      background-color: $red;
+      background-color: #fd4f57;
       cursor: pointer;
     }
 
@@ -28,7 +26,7 @@ $cell-size: 40px;
   }
 }
 
-@include media('screen', '>phone', '<=tablet') {
+@media only screen and (min-width: 370px) and (max-width: 715px) {
   $cell-size: 50px;
 
   #menu {
@@ -44,11 +42,11 @@ $cell-size: 40px;
   }
 }
 
-@include media('screen', '>tablet') {
+@media only screen and (min-width: 716px) {
   $cell-size: 100px;
   
   #menu {
-    font-size: 400%;
+    font-size: 300%;
     width: $cell-size * 7;
 
     .menu-item {

@@ -1,14 +1,8 @@
-@import '../constants';
-
 #title {
-  width: fit-content;
   font-size: 200%;
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  height: 40px;
-  line-height: 40px;
   margin: auto;
-  background-color: transparent;
 
   &:hover {
     cursor: pointer;
@@ -20,27 +14,21 @@
 }
 
 #connect {
-  color: $red;
-  background-color: transparent;
+  color: #fd4f57;
 }
 
 #four {
-  color: $blue;
-  background-color: transparent;
+  color: #16CBC4;
 }
 
-@include media('screen', '>phone', '<=tablet') {
+@media only screen and (min-width : 370px) and (max-width : 715px) {
   #title {
-    height: 50px;
-    line-height: 50px;
     font-size: 250%;
   }
 }
 
-@include media('screen', '>tablet') {
+@media only screen and (min-width : 716px) {
   #title {
-    height: 100px;
-    line-height: 100px;
     font-size: 500%;
   }
 }

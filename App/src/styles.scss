@@ -1,5 +1,9 @@
-@import 'constants';
+html {
+  background-color: #595959;
+}
 
-* {
-  background-color: $grey;
+@media only screen and (min-width : 370px) and (max-width : 715px) {
+}
+
+@media only screen and (min-width : 716px) {
 }
