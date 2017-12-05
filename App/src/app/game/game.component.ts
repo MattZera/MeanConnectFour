@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
-import { SocketService } from "../services/socket.service";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {SocketService} from "../services/socket.service";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-game',
@@ -9,10 +10,13 @@ import { SocketService } from "../services/socket.service";
 })
 
 export class GameComponent implements OnInit, OnDestroy {
+
+  gameState: Subscription;
+
   player = 0;
-  nextPlayer = 1;
+  nextPlayer: number = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
-  board = [
+  board: Array<Array<number>> = [
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
@@ -31,11 +35,8 @@ export class GameComponent implements OnInit, OnDestroy {
     private socket: SocketService) { }
 
   ngOnInit() {
-    this.socket.getMessagesFor("connect").subscribe(() => {
-      console.log("connected")
-    });
+    this.gameState = this.socket.getMessagesFor('gamestate').subscribe((data) => {
 
-    this.socket.receive('gamestate', (data) => {
       console.log('response', data);
 
       this.board = this.transpose(data.board);
@@ -60,7 +61,9 @@ export class GameComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {
+    this.gameState.unsubscribe();
+  }
 
   handleClick(data) {
     this.socket.send("click", data);
