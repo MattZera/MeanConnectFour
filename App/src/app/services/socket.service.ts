@@ -26,10 +26,11 @@ export class SocketService implements OnDestroy {
 
         observer.next(this.socket);
 
+        let socket = this.socket;
         //cleanup and close the connection
         return function () {
           subscription.unsubscribe();
-          this.socket.disconnect();
+          socket.disconnect();
         }
       }
       )).publishReplay().refCount();
