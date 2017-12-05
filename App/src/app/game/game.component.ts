@@ -13,7 +13,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   gameState: Subscription;
 
-  player = 1;
+  player = 0;
   nextPlayer: number = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
   board: Array<Array<number>> = [
