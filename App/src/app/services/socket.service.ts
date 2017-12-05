@@ -40,6 +40,16 @@ export class SocketService implements OnDestroy {
     this.sendSubject.complete();
   }
 
+  /**
+   * Get an observable for the current string.
+   *
+   * Multiplexes the socket allowing multiple components to subscribe
+   * and disconnect the socket when all components are unsubscribed.
+   *
+   * @param label
+   * @returns Observable<any
+   */
+
   public getMessagesFor(label: string): Observable<any> {
     //returns a new observable mapped to a function
     if (!this.connections[label]) {
@@ -55,7 +65,4 @@ export class SocketService implements OnDestroy {
     this.sendSubject.next({ label: label, data: data });
   }
 
-  public receive(label: string, callback: (data: any) => any) {
-    this.socket.on(label, callback);
-  }
 }
