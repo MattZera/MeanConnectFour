@@ -63,7 +63,7 @@ class Game {
   }
 }
 
-function start(client) {
+function setupGame(client) {
   let game = new Game();
 
   client.emit('gamestate', game.gamestate);
@@ -83,7 +83,7 @@ module.exports = function (server) {
   io.on('connection', (client) => {
     console.log("connected");
 
-    let game = start(client);
+    let game = setupGame(client);
 
     client.on('click', (data) => {
       game.move(data);
@@ -96,7 +96,7 @@ module.exports = function (server) {
     });
 
     client.on('reset', () => {
-      game = start(client);
+      game = setupGame(client);
     });
   });
 
