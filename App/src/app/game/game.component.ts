@@ -2,18 +2,6 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {SocketService} from "../services/socket.service";
 
-@Component({
-  selector: 'move-button',
-  template: '<div class="coin player{{player}} {{active(column)}}" (click)="callback(column)"></div>',
-  styleUrls: ['./game.component.scss']
-})
-
-export class MoveButton {
-  @Input() callback: Function;
-  @Input() column: number;
-  @Input() player: number;
-  @Input() active = () => { };
-}
 
 @Component({
   selector: 'app-game',
@@ -24,7 +12,7 @@ export class MoveButton {
 export class GameComponent implements OnInit, OnDestroy {
 
 
-  player = 0;
+  player = 1;
   nextPlayer = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
   board = [
@@ -52,31 +40,22 @@ export class GameComponent implements OnInit, OnDestroy {
       console.log("connected")
     });
 
+    this.socket.receive('gamestate', (data) => {
+      console.log('response', data);
 
-    this.socket.getMessagesFor("setup").su
-    this.socket.receive('setup', (data) => {
       this.board = this.transpose(data.board);
       this.player = data.player;
-      this.nextPlayer = 1 ;
-      this.animate = false;
-      this.row = -1;
-      this.col = -1;
-      this.endGame = false;
-    });
+      this.animate = data.lastMove !== null;
+      if (data.lastMove !== null){
+        this.row = data.lastMove.row;
+        this.col = data.lastMove.col;
+      }
 
-    this.socket.receive('response', (data) => {
-      console.log('response', data);
-      this.board = this.transpose(data.board);
-      this.nextPlayer = data.nextPlayer;
-      this.animate = true;
-      this.row = data.moveData.row;
-      this.col = data.moveData.col;
-
-      if (data.win === "win"){
+      if (data.winner !== null){
         this.endGame = true;
         // do something on win
         // data.winningPlayer available
-      } else if (data.win === "tie") {
+      } else if (data.winner === 3) {
         this.endGame = true;
         // do something on tie
       }

@@ -2,8 +2,7 @@
   <ng-template *ngIf="player == nextPlayer;then buttons"></ng-template>
   <ng-template #buttons>
     <ng-container *ngFor="let column of columns">
-      <move-button [callback]="handleClick.bind(this)" [column]=column [player]="player"
-                   [active]="isActive.bind(this)"></move-button>
+      <div class="coin player{{player}} {{isActive(column)}}" (click)="handleClick(column)"></div>
     </ng-container>
   </ng-template>
 </div>
