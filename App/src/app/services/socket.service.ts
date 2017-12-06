@@ -10,7 +10,6 @@ export class SocketService implements OnDestroy {
   private socket;
 
   constructor() {
-
     //construct the message subject
     this.sendSubject = new Subject();
 
@@ -59,6 +58,10 @@ export class SocketService implements OnDestroy {
         .share();
     }
     return this.connections[label];
+  }
+
+  public getId(){
+    return this.socket.id;
   }
 
   public send(label: string, data: any = {}) {

@@ -10,6 +10,7 @@ import { Subscription } from "rxjs/Subscription";
 })
 
 export class GameComponent implements OnInit, OnDestroy {
+  gameType: string;
   gameState: Subscription;
   player = 0;
   nextPlayer: number = 1;
@@ -34,18 +35,24 @@ export class GameComponent implements OnInit, OnDestroy {
     private socket: SocketService) { }
 
   ngOnInit() {
+
     this.gameState = this.socket.getMessagesFor('gamestate').subscribe((data) => {
       console.log('response', data);
       this.board = this.transpose(data.board);
+
+      if (data.players[0] == this.socket.getId()){
+        this.player = 1;
+      }else {
+        this.player = 2;
+      }
 
       if (data.lastMove !== null) {
         this.animate = true;
         this.nextPlayer = data.player;
         this.row = data.lastMove.row;
         this.col = data.lastMove.col;
-      } else {
-        this.player = data.player;
       }
+
 
       if (data.winner !== null) {
         this.winner = data.winner;
@@ -58,6 +65,12 @@ export class GameComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.route.params.map(p => p.gametype).subscribe((gametype)=>{
+      this.gameType = gametype;
+      this.newGame();
+    });
+
   }
 
   ngOnDestroy(): void {
@@ -65,7 +78,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   handleClick(data) {
-    this.socket.send("click", data);
+    this.socket.send("makemove", data);
   }
 
   isActive(column) {
@@ -84,10 +97,10 @@ export class GameComponent implements OnInit, OnDestroy {
     });
   }
 
-  reset() {
+  newGame() {
     this.row = -1;
     this.col = -1;
     this.winner = null;
-    this.socket.send("reset");
+    this.socket.send('newgame', this.gameType);
   }
 }
