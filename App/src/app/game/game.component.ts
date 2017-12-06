@@ -10,9 +10,10 @@ import { Subscription } from "rxjs/Subscription";
 })
 
 export class GameComponent implements OnInit, OnDestroy {
+  gameType: string;
   gameState: Subscription;
   player = 0;
-  nextPlayer: number = 1;
+  nextPlayer = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
   board: Array<Array<number>> = [
     [0, 0, 0, 0, 0, 0],
@@ -28,23 +29,49 @@ export class GameComponent implements OnInit, OnDestroy {
   col = -1;
   winner: number = null;
   message = "";
+  waiting = false;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     private socket: SocketService) { }
 
   ngOnInit() {
+
     this.gameState = this.socket.getMessagesFor('gamestate').subscribe((data) => {
       console.log('response', data);
       this.board = this.transpose(data.board);
 
-      if (data.lastMove !== null) {
+      if (data.waiting) {
+        this.waiting = true;
+      } else {
+        this.waiting = false;
+      }
+
+      if (data.lastMove === null) {
+        if (this.socket.getId() === data.players[0]) {
+          this.player = data.playerOne;
+        } else {
+          this.player = data.playerTwo;
+        }
+
+        if (this.player == 2) {
+          this.waiting = true;
+          this.message = "...waiting for player " + (2 - this.player + 1);
+        }
+
+        if (data.gameType === 'multiplayer' && data.players.length == 1) {
+          this.message = "...waiting for player";
+          this.nextPlayer = 0;
+        } else {
+          this.nextPlayer = 1;
+          this.message = "...waiting for player " + (2 - this.player + 1);
+        }
+      } else {
         this.animate = true;
-        this.nextPlayer = data.player;
+        this.nextPlayer = data.nextPlayer;
         this.row = data.lastMove.row;
         this.col = data.lastMove.col;
-      } else {
-        this.player = data.player;
+        this.message = "...waiting for player " + (2 - this.player + 1);
       }
 
       if (data.winner !== null) {
@@ -58,6 +85,11 @@ export class GameComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.route.params.map(p => p.gametype).subscribe((gametype) => {
+      this.gameType = gametype;
+      this.newGame();
+    });
   }
 
   ngOnDestroy(): void {
@@ -65,7 +97,9 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   handleClick(data) {
-    this.socket.send("click", data);
+    this.waiting = true;
+    this.nextPlayer = 2 - this.player + 1;
+    this.socket.send("makemove", data);
   }
 
   isActive(column) {
@@ -84,10 +118,14 @@ export class GameComponent implements OnInit, OnDestroy {
     });
   }
 
-  reset() {
+  newGame() {
+    this.player = 0;
+    this.nextPlayer = 1;
     this.row = -1;
     this.col = -1;
     this.winner = null;
-    this.socket.send("reset");
+    this.waiting = false;
+    this.message = "";
+    this.socket.send('newgame', this.gameType);
   }
 }
