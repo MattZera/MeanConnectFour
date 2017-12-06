@@ -73,7 +73,8 @@ class Game {
             player: this.currentPlayer,
             winner: this.winner,
             lastMove: this.lastMove,
-            players: this.players
+            players: this.players,
+            playerOne: this.playerOne
         };
     }
 }
@@ -147,8 +148,6 @@ module.exports = function (server) {
 
         client.on('makemove', (data) => {
 
-
-
             switch (game.gameType){
                 case 'singleplayer':
 
@@ -176,8 +175,6 @@ module.exports = function (server) {
                 default:
                     break;
             }
-
-
 
         });
     });

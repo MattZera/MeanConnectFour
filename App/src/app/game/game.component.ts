@@ -41,9 +41,9 @@ export class GameComponent implements OnInit, OnDestroy {
       this.board = this.transpose(data.board);
 
       if (data.players[0] == this.socket.getId()){
-        this.player = 1;
+        this.player = data.playerOne;
       }else {
-        this.player = 2;
+        this.player = 2 - data.playerOne + 1;
       }
 
       if (data.lastMove !== null) {
@@ -52,7 +52,6 @@ export class GameComponent implements OnInit, OnDestroy {
         this.row = data.lastMove.row;
         this.col = data.lastMove.col;
       }
-
 
       if (data.winner !== null) {
         this.winner = data.winner;
