@@ -15,7 +15,7 @@ $cell-size: 40px;
   opacity: 0.25;
   background-color: $red;
   margin: $cell-size*.5*.1;
-  width: $cell-size * 0.9;
+  width: $cell-size * .9;
   height: 90%;
   border-radius: 100%;
 
@@ -32,7 +32,7 @@ $cell-size: 40px;
   }
   
   &.inactive {
-    visibility: collapse;
+    visibility: hidden;
   }
 
   &:hover {
@@ -58,13 +58,13 @@ $cell-size: 40px;
 }
 
 #reset {
-  width: $cell-size * 5;
-  height: $cell-size;
+  width: $cell-size * 5 - $cell-size * .1;
+  height: $cell-size * .9;
   margin: ($cell-size / 4) auto;
   text-align: center;
   font-size: 160%;
   font-family: 'Poppins', sans-serif;
-  line-height: $cell-size;
+  line-height: $cell-size * .9;
   border-radius: $cell-size / 2;
   background-color: $blue;
   color: $white;
@@ -89,7 +89,7 @@ $cell-size: 40px;
 
   .coin {
     margin: $cell-size*.5*.1;
-    width: $cell-size * 0.9;
+    width: $cell-size * .9;
   }
 
   .message {
@@ -98,12 +98,12 @@ $cell-size: 40px;
   }
 
   #reset {
-    width: $cell-size * 5;
-    height: $cell-size;
+    width: $cell-size * 5 - $cell-size * .1;
+    height: $cell-size * .9;
     margin: ($cell-size / 4) auto;
     margin-bottom: 0;
     font-size: 200%;
-    line-height: $cell-size;
+    line-height: $cell-size * .9;
     border-radius: $cell-size / 2;
   }
 }
@@ -118,7 +118,7 @@ $cell-size: 40px;
   
   .coin {
     margin: $cell-size*.5*.1;
-    width: $cell-size * 0.9;
+    width: $cell-size * .9;
   }
 
   .message {
@@ -127,11 +127,11 @@ $cell-size: 40px;
   }
 
   #reset {
-    width: $cell-size * 5;
-    height: $cell-size;
+    width: $cell-size * 5 - $cell-size * .1;
+    height: $cell-size * .9;
     margin: ($cell-size / 4) auto;
     font-size: 400%;
-    line-height: $cell-size;
+    line-height: $cell-size * .9;
     border-radius: $cell-size / 2;
   }
 }
