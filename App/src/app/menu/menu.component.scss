@@ -10,9 +10,9 @@ $cell-size: 40px;
   width: $cell-size *  7;
 
   .menu-item {
-    height: $cell-size;
+    height: $cell-size * .9;
     margin: ($cell-size / 2) auto;
-    line-height: $cell-size;
+    line-height: $cell-size * .9;
     border-radius: $cell-size / 2;
     background-color: $blue;
     color: $white;
@@ -36,9 +36,9 @@ $cell-size: 40px;
     width: $cell-size * 7;
 
     .menu-item {
-      height: $cell-size;
+      height: $cell-size * .9;
       margin: ($cell-size / 2) auto;
-      line-height: $cell-size;
+      line-height: $cell-size * .9;
       border-radius: $cell-size / 2;
     }
   }
@@ -52,9 +52,9 @@ $cell-size: 40px;
     width: $cell-size * 7;
 
     .menu-item {
-      height: $cell-size;
+      height: $cell-size * .9;
       margin: ($cell-size / 2) auto;
-      line-height: $cell-size;
+      line-height: $cell-size * .9;
       border-radius: $cell-size / 2;
     }
   }
