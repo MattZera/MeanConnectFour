@@ -4,12 +4,12 @@
     <ng-template *ngIf="gameType == 'democratic'; then democratic else normal"></ng-template>
     <ng-template #democratic>
       <ng-container *ngFor="let column of columns">
-        <div class="coin player{{player}} {{isActive(column)}}" (click)="handleClick(column)">{{votes[column]}}</div>
+        <div class="coin player{{player}} {{isActive(column)}} {{hasVoted()}}" (click)="handleClick(column)">{{votes[column]}}</div>
       </ng-container>
     </ng-template>
     <ng-template #normal>
       <ng-container *ngFor="let column of columns">
-        <div class="coin player{{player}} {{isActive(column)}} {{hasVoted()}}" (click)="handleClick(column)"></div>
+        <div class="coin player{{player}} {{isActive(column)}}" (click)="handleClick(column)"></div>
       </ng-container>
     </ng-template>
   </ng-template>
