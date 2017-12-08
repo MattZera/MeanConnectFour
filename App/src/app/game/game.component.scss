@@ -16,8 +16,13 @@ $cell-size: 40px;
   background-color: $red;
   margin: $cell-size*.5*.1;
   width: $cell-size * .9;
-  height: 90%;
+  height: $cell-size * .9;
   border-radius: 100%;
+  font-size: 80%;
+  font-family: 'Poppins', sans-serif;
+  color: $white;
+  text-align: center;
+  line-height: $cell-size * .9;
 
   &.player1 {
     background-color: $red;
@@ -96,6 +101,9 @@ $cell-size: 40px;
   .coin {
     margin: $cell-size*.5*.1;
     width: $cell-size * .9;
+    height: $cell-size * .9;
+    font-size: 100%;
+    line-height: $cell-size * .9;
   }
 
   .message {
@@ -125,6 +133,9 @@ $cell-size: 40px;
   .coin {
     margin: $cell-size*.5*.1;
     width: $cell-size * .9;
+    height: $cell-size * .9;
+    font-size: 200%;
+    line-height: $cell-size * .9;
   }
 
   .message {
