@@ -15,7 +15,7 @@ export class GameComponent implements OnInit, OnDestroy {
   player = 0;
   nextPlayer = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
-  board: Array<Array<number>> = [
+  board = [
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
@@ -28,9 +28,9 @@ export class GameComponent implements OnInit, OnDestroy {
   row = -1;
   col = -1;
   winner: number = null;
-  message = "";
+  message = "...waiting for player 1";
   waiting = false;
-  votes = Array<number>(7).fill(0);
+  votes = [0, 0, 0, 0, 0, 0, 0];
   voted = false;
 
   constructor(private route: ActivatedRoute,
@@ -51,16 +51,16 @@ export class GameComponent implements OnInit, OnDestroy {
       }
 
       if (data.lastMove === null) {
-        if (this.socket.getId() === data.players[0] || data.gameType === 'democratic') {
+        if (this.socket.getId() === data.players[0] || this.gameType === 'democratic') {
           this.player = data.playerOne;
         } else {
           this.player = data.playerTwo;
         }
 
-        if (data.gameType === 'democratic' && data.players.length == 1) {
+        if (this.gameType === 'democratic' && data.players.length == 1) {
           this.nextPlayer = 0;
           this.message = "...waiting for players";
-        } else if (data.gameType === 'multiplayer' && data.players.length == 1) {
+        } else if (this.gameType === 'multiplayer' && data.players.length == 1) {
           this.nextPlayer = 0;
           this.message = "...waiting for player";
         } else if (this.player == 2) {
@@ -71,10 +71,20 @@ export class GameComponent implements OnInit, OnDestroy {
           this.nextPlayer = 1;
           this.message = "...waiting for player " + (2 - this.player + 1);
         }
-      } else {
+
         if (data.updateVotes) {
           this.votes = data.votes;
           this.animate = false;
+        }
+      } else {
+        if (this.gameType === 'democratic') {
+          this.votes = data.votes;
+        }
+
+        if (data.updateVotes) {
+          this.animate = false;
+          this.row = -1;
+          this.col = -1;
         } else {
           this.animate = true;
           this.voted = false;
@@ -108,9 +118,12 @@ export class GameComponent implements OnInit, OnDestroy {
 
   handleClick(data) {
     if (!this.voted) {
-      this.waiting = true;
-      this.voted = true;
-      this.nextPlayer = 2 - this.player + 1;
+      if (this.gameType === 'democratic') {
+        this.voted = true;
+      } else {
+        this.waiting = true;
+        this.nextPlayer = 2 - this.player + 1;
+      }
       this.socket.send("makemove", data);
     }
   }
@@ -144,7 +157,19 @@ export class GameComponent implements OnInit, OnDestroy {
     this.col = -1;
     this.winner = null;
     this.waiting = false;
-    this.message = "";
+    this.animate = false;
+    this.board = [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ];
+    this.votes = [0, 0, 0, 0, 0, 0, 0];
+    this.voted = false;
+    this.message = "...waiting for player 1";
     this.socket.send('newgame', this.gameType);
   }
 }

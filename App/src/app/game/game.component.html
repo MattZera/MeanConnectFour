@@ -2,7 +2,7 @@
   <ng-template *ngIf="player == nextPlayer && !winner && !waiting; then buttons"></ng-template>
   <ng-template #buttons>
     <ng-container *ngFor="let column of columns">
-      <div class="coin player{{player}} {{isActive(column)}} {{hasVoted()}}" (click)="handleClick(column)"></div>
+      <div class="coin player{{player}} {{isActive(column)}} {{hasVoted()}}" (click)="handleClick(column)">{{votes[column]}}</div>
     </ng-container>
   </ng-template>
   <div class="message player{{nextPlayer}}" *ngIf="waiting && !winner">{{message}}</div>

@@ -51,11 +51,21 @@ class Game {
   }
 
   get maxVote() {
-    function getMax(a, b) {
-      return Math.max(a, b);
+    let max = 0;
+    let column = [];
+
+    for (let i = 0; i < 7; i++) {
+      const value = this._votes[i];
+      if (value > max) {
+        max = value;
+        column = [i];
+      } else if (value == max) {
+        column.push(i);
+      }
     }
 
-    return this._votes.reduce(getMax);
+    const index = Math.floor(Math.random() * column.length);
+    return column[index];
   }
 
   clearVotes() {
@@ -92,8 +102,7 @@ class Game {
   }
 
   get gamestate() {
-    data = {
-      gameType: this.gameType,
+    let data = {
       board: this.board,
       nextPlayer: this.currentPlayer,
       winner: this.winner,
@@ -123,7 +132,6 @@ module.exports = function (server) {
   let io = socketio(server);
   let multiPlayerGames = [];
   let democratic = null;
-  let democraticRoom = io.of('/democratic');
 
   io.on('connection', (client) => {
     console.log("connected");
@@ -171,8 +179,13 @@ module.exports = function (server) {
             game.join(client.id);
             game.gameType = type;
             client.emit('gamestate', game.gamestate);
-            if (game.players.length === 1) {
+            if (game.players.length === 2) {
               client.broadcast.to('democratic').emit('gamestate', game.gamestate);
+
+              if (game.playerOne !== 1) {
+                game.move();
+                io.to('democratic').emit('gamestate', game.gamestate);
+              }
             }
           } else {
             game = new Game();
@@ -184,7 +197,7 @@ module.exports = function (server) {
             }, game.gamestate));
           }
 
-          console.log(game.players().length + " players in democratic");
+          console.log(game.players.length + " players in democratic");
           break;
 
         default:
@@ -220,21 +233,25 @@ module.exports = function (server) {
           break;
 
         case 'democratic':
-          game.vote(data);
+          game.vote = data;
           if (game.totalVotes < game.players.length) {
-            democraticRoom.emit('gamestate', Object.assign({
+            io.to('democratic').emit('gamestate', Object.assign({
               updateVotes: true
             }, game.gamestate));
           } else {
             game.move(game.maxVote);
             game.clearVotes();
-            democraticRoom.emit('gamestate', Object.assign({
+            io.to('democratic').emit('gamestate', Object.assign({
               waiting: true
             }, game.gamestate));
 
             if (game.currentPlayer !== game.playerOne && game.winner === null) {
               game.move();
-              democraticRoom.emit('gamestate', game.gamestate);
+              io.to('democratic').emit('gamestate', game.gamestate);
+            }
+
+            if (game.winner) {
+              democratic = null;
             }
           }
           break;
