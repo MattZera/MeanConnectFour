@@ -20,7 +20,7 @@ import { BoardComponent } from "./game/board.component";
     routing,
     BrowserModule
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

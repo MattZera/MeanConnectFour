@@ -227,13 +227,17 @@ module.exports = function (server) {
             game.gameType = type;
             client.emit('gamestate', game.gamestate);
 
-            if (game.players.length === 2) {
+            if (game.players.length === 2 && !game.lastMove) {
               client.broadcast.to('democratic').emit('gamestate', game.gamestate);
 
               if (game.playerOne !== 1) {
                 game.move();
                 io.to('democratic').emit('gamestate', game.gamestate);
               }
+            } else {
+              io.to('democratic').emit('gamestate', Object.assign({
+                updateVotes: true
+              }, game.gamestate));
             }
           } else {
             game = new Game();
