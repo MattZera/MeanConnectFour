@@ -15,7 +15,7 @@ export class GameComponent implements OnInit, OnDestroy {
   player = 0;
   nextPlayer = 1;
   columns = [0, 1, 2, 3, 4, 5, 6];
-  board: Array<Array<number>> = [
+  board = [
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
@@ -28,8 +28,10 @@ export class GameComponent implements OnInit, OnDestroy {
   row = -1;
   col = -1;
   winner: number = null;
-  message = "";
+  message = "...waiting for player 1";
   waiting = false;
+  votes = [0, 0, 0, 0, 0, 0, 0];
+  voted = false;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -43,35 +45,53 @@ export class GameComponent implements OnInit, OnDestroy {
 
       if (data.waiting) {
         this.waiting = true;
+        this.message = "...waiting for player " + (2 - this.player + 1);
       } else {
         this.waiting = false;
       }
 
       if (data.lastMove === null) {
-        if (this.socket.getId() === data.players[0]) {
+        if (this.socket.getId() === data.players[0] || this.gameType === 'democratic') {
           this.player = data.playerOne;
         } else {
           this.player = data.playerTwo;
         }
 
-        if (this.player == 2) {
-          this.waiting = true;
-          this.message = "...waiting for player " + (2 - this.player + 1);
-        }
-
-        if (data.gameType === 'multiplayer' && data.players.length == 1) {
-          this.message = "...waiting for player";
+        if (this.gameType === 'democratic' && data.players.length == 1) {
           this.nextPlayer = 0;
+          this.message = "...waiting for players";
+        } else if (this.gameType === 'multiplayer' && data.players.length == 1) {
+          this.nextPlayer = 0;
+          this.message = "...waiting for player";
+        } else if (this.player == 2) {
+          this.waiting = true;
+          this.nextPlayer = 1;
+          this.message = "...waiting for player 1";
         } else {
           this.nextPlayer = 1;
           this.message = "...waiting for player " + (2 - this.player + 1);
         }
+
+        if (data.updateVotes) {
+          this.votes = data.votes;
+          this.animate = false;
+        }
       } else {
-        this.animate = true;
-        this.nextPlayer = data.nextPlayer;
-        this.row = data.lastMove.row;
-        this.col = data.lastMove.col;
-        this.message = "...waiting for player " + (2 - this.player + 1);
+        if (this.gameType === 'democratic') {
+          this.votes = data.votes;
+        }
+
+        if (data.updateVotes) {
+          this.animate = false;
+          this.row = -1;
+          this.col = -1;
+        } else {
+          this.animate = true;
+          this.voted = false;
+          this.nextPlayer = data.nextPlayer;
+          this.row = data.lastMove.row;
+          this.col = data.lastMove.col;
+        }
       }
 
       if (data.winner !== null) {
@@ -97,9 +117,15 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   handleClick(data) {
-    this.waiting = true;
-    this.nextPlayer = 2 - this.player + 1;
-    this.socket.send("makemove", data);
+    if (!this.voted) {
+      if (this.gameType === 'democratic') {
+        this.voted = true;
+      } else {
+        this.waiting = true;
+        this.nextPlayer = 2 - this.player + 1;
+      }
+      this.socket.send("makemove", data);
+    }
   }
 
   isActive(column) {
@@ -107,6 +133,12 @@ export class GameComponent implements OnInit, OnDestroy {
       return "inactive";
     } else {
       return "active";
+    }
+  }
+
+  hasVoted() {
+    if (this.voted) {
+      return "voted";
     }
   }
 
@@ -125,7 +157,19 @@ export class GameComponent implements OnInit, OnDestroy {
     this.col = -1;
     this.winner = null;
     this.waiting = false;
-    this.message = "";
+    this.animate = false;
+    this.board = [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ];
+    this.votes = [0, 0, 0, 0, 0, 0, 0];
+    this.voted = false;
+    this.message = "...waiting for player 1";
     this.socket.send('newgame', this.gameType);
   }
 }
