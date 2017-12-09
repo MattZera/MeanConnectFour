@@ -4,8 +4,8 @@ This project was made for COMP 484 - Web Engineering.
 
 ## Authors
 
-**Matt Zera** - [GitHub](https://github.com/MattZera/) - [Website](https://mattzera.com)
-**Kory Dondzila** - [GitHub](https://github.com/korydondzila/) - [Website](http://korydondzila.com)
+* **Matt Zera** - [GitHub](https://github.com/MattZera/) - [Website](https://mattzera.com)
+* **Kory Dondzila** - [GitHub](https://github.com/korydondzila/) - [Website](http://korydondzila.com)
 
 
 ### Description
