@@ -3,9 +3,9 @@ This project was made for COMP 484 - Web Engineering. It was made by Matt Zera a
 
 ### Description
 This project implements the game of Connect Four in three different modes.
-1. - Single Player - This mode allows the user to play against an AI.
-2. - Multiplayer - This mode allows two users to play against each other.
-3. - Democratic Play - This mode allows many users to play against a single AI. The users have 30 seconds to vote on the move to make and the move with the largest number of votes is taken, or if there is a tie then one of the tied moves is randomly taken.
+1. Single Player - This mode allows the user to play against an AI.
+2. Multiplayer - This mode allows two users to play against each other.
+3. Democratic Play - This mode allows many users to play against a single AI. The users have 30 seconds to vote on the move to make and the move with the largest number of votes is taken, or if there is a tie then one of the tied moves is randomly taken.
 
 When the user first acceses the site they are shown a menu screen with the three game modes, clicking one will take the user to that game.
 In the case of Single Player, a new game is created an play begins, either the player or AI is chosen to go first. Leaving before the game finishes will end the game.
