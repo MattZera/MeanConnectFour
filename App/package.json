@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "ng build",
+    "postinstall": "./node_modules/@angular/cli/bin/ng build",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build -watch",
