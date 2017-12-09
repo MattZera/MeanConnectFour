@@ -313,6 +313,9 @@ module.exports = function (server) {
           break;
 
         case 'democratic':
+          if (game.players.length === 0) {
+            democratic = null;
+          }
           break;
 
         default:
