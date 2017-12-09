@@ -291,41 +291,34 @@ module.exports = function (server) {
     });
 
     client.on('disconnect', () => {
-
       if (!game) return;
 
       let playerIndex = game.leave(client.id);
 
       switch (game.gameType) {
         case 'singleplayer':
-
           break;
 
         case 'multiplayer':
-
           if (game.players.length === 1) {
             game.winner = (playerIndex === 0) ? game.playerTwo : game.playerOne;
             client.broadcast.to(game.players[0]).emit('gamestate', game.gamestate);
           } else if (game.players.length === 0) {
             let gameIndex = multiPlayerGames.indexOf(game);
+
             if (gameIndex !== -1) {
               multiPlayerGames.splice(gameIndex, 1);
             }
           }
-
           break;
 
         case 'democratic':
-
           break;
 
         default:
           break;
       }
-
     });
-
-
   });
 
   return io;

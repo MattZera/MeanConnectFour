@@ -50,7 +50,7 @@ export class GameComponent implements OnInit, OnDestroy {
         this.waiting = false;
       }
 
-      if (data.lastMove === null) {
+      if (!data.lastMove && !data.winner) {
         if (this.socket.getId() === data.players[0] || this.gameType === 'democratic') {
           this.player = data.playerOne;
         } else {
@@ -85,16 +85,23 @@ export class GameComponent implements OnInit, OnDestroy {
           this.animate = false;
           this.row = -1;
           this.col = -1;
-        } else {
-          this.animate = true;
+        } else if (data.lastMove) {
           this.voted = false;
           this.nextPlayer = data.nextPlayer;
-          this.row = data.lastMove.row;
-          this.col = data.lastMove.col;
+          
+          if (data.lastMove.row == this.row && data.lastMove.col == this.col) {
+            this.animate = false;
+            this.row = -1;
+            this.col = -1;
+          } else {
+            this.animate = true;
+            this.row = data.lastMove.row;
+            this.col = data.lastMove.col;
+          }
         }
       }
 
-      if (data.winner !== null) {
+      if (data.winner) {
         this.winner = data.winner;
         if (data.winner == this.player) {
           this.message = "You Win!";
