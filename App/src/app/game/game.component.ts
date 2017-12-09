@@ -46,11 +46,14 @@ export class GameComponent implements OnInit, OnDestroy {
       if (data.waiting) {
         this.waiting = true;
         this.message = "...waiting for player " + (2 - this.player + 1);
+        if (this.gameType === 'democratic') {
+          this.socket.send('clearVote');
+        }
       } else {
         this.waiting = false;
       }
 
-      if (data.lastMove === null) {
+      if (!data.lastMove && !data.winner) {
         if (this.socket.getId() === data.players[0] || this.gameType === 'democratic') {
           this.player = data.playerOne;
         } else {
@@ -58,6 +61,7 @@ export class GameComponent implements OnInit, OnDestroy {
         }
 
         if (this.gameType === 'democratic' && data.players.length == 1) {
+          this.waiting = true;
           this.nextPlayer = 0;
           this.message = "...waiting for players";
         } else if (this.gameType === 'multiplayer' && data.players.length == 1) {
@@ -85,16 +89,23 @@ export class GameComponent implements OnInit, OnDestroy {
           this.animate = false;
           this.row = -1;
           this.col = -1;
-        } else {
-          this.animate = true;
+        } else if (data.lastMove) {
           this.voted = false;
           this.nextPlayer = data.nextPlayer;
-          this.row = data.lastMove.row;
-          this.col = data.lastMove.col;
+
+          if (data.lastMove.row == this.row && data.lastMove.col == this.col) {
+            this.animate = false;
+            this.row = -1;
+            this.col = -1;
+          } else {
+            this.animate = true;
+            this.row = data.lastMove.row;
+            this.col = data.lastMove.col;
+          }
         }
       }
 
-      if (data.winner !== null) {
+      if (data.winner) {
         this.winner = data.winner;
         if (data.winner == this.player) {
           this.message = "You Win!";

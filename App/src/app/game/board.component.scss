@@ -32,7 +32,7 @@ $cell-size: 40px;
     content: '';
     @include widthHeight(7, 1);
     position: absolute;
-    top: -100px;
+    top: -$cell-size;
   }
 }
 
@@ -89,6 +89,10 @@ $cell-size: 40px;
     to {}
   }
 
+  .board:after {
+    top: -$cell-size;
+  }
+
   .col:after {
     background-image: radial-gradient(transparent 0, transparent $cell-size*.5*.9, $grey $cell-size*.5*.9+1px, $grey $cell-size);
     background-size: $cell-size $cell-size;
@@ -107,6 +111,10 @@ $cell-size: 40px;
       top: -$cell-size;
     }
     to {}
+  }
+
+  .board:after {
+    top: -$cell-size;
   }
 
   .col:after {

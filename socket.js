@@ -28,6 +28,7 @@ class Game {
     this.playerTwo = 2 - this.playerOne + 1
     this.gameType = 'singleplayer';
     this._votes = Array(7).fill(0);
+    this._id = this.uuid();
   }
 
   set currentPlayer(player) {
@@ -101,6 +102,14 @@ class Game {
     this._players.push(player);
   }
 
+  leave(player) {
+    let index = this._players.indexOf(player);
+    if (index > -1) {
+      this._players.splice(index, 1);
+    }
+    return index;
+  }
+
   get players() {
     return this._players;
   }
@@ -122,26 +131,57 @@ class Game {
 
     return data;
   }
+
+  get id() {
+    return this._id;
+  }
+
+  uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      let r = Math.random() * 16 | 0,
+        v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
 }
 
-function uuid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    let r = Math.random() * 16 | 0,
-      v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
+function democraticMove(io, game, democratic) {
+  if (game.totalVotes < game.players.length) {
+    io.to('democratic').emit('gamestate', Object.assign({
+      updateVotes: true
+    }, game.gamestate));
+  } else {
+    game.move(game.maxVote);
+    game.clearVotes();
+    io.to('democratic').emit('gamestate', Object.assign({
+      waiting: true
+    }, game.gamestate));
+
+    if (game.currentPlayer !== game.playerOne && game.winner === null) {
+      game.move();
+      io.to('democratic').emit('gamestate', game.gamestate);
+    }
+
+    if (game.winner) {
+      democratic = null;
+    }
+  }
+
+  return democratic;
 }
 
 module.exports = function (server) {
   let io = socketio(server);
+
   let multiPlayerGames = [];
   let democratic = null;
 
   io.on('connection', (client) => {
     console.log("connected");
 
-    let game;
-    let previousMove;
+    let game = null;
+    let previousMove = null;
+    let voted = false;
 
     client.on('newgame', (type) => {
       previousMove = null;
@@ -186,7 +226,7 @@ module.exports = function (server) {
             game.join(client.id);
             game.gameType = type;
             client.emit('gamestate', game.gamestate);
-            
+
             if (game.players.length === 2) {
               client.broadcast.to('democratic').emit('gamestate', game.gamestate);
 
@@ -211,10 +251,14 @@ module.exports = function (server) {
         default:
           break;
       }
+
+
     });
 
     client.on('makemove', (data) => {
       previousMove = data;
+
+      if (!game) return;
 
       switch (game.gameType) {
         case 'singleplayer':
@@ -244,26 +288,51 @@ module.exports = function (server) {
 
         case 'democratic':
           game.vote(data);
+          voted = true;
+          democratic = democraticMove(io, game, democratic);
+          break;
 
-          if (game.totalVotes < game.players.length) {
-            io.to('democratic').emit('gamestate', Object.assign({
-              updateVotes: true
-            }, game.gamestate));
+        default:
+          break;
+      }
+    });
+
+    client.on('clearVote', () => {
+      previousMove = null;
+      voted = false;
+    });
+
+    client.on('disconnect', () => {
+      if (!game) return;
+
+      let playerIndex = game.leave(client.id);
+
+      switch (game.gameType) {
+        case 'singleplayer':
+          break;
+
+        case 'multiplayer':
+          if (game.players.length === 1) {
+            game.winner = (playerIndex === 0) ? game.playerTwo : game.playerOne;
+            client.broadcast.to(game.players[0]).emit('gamestate', game.gamestate);
+          } else if (game.players.length === 0) {
+            let gameIndex = multiPlayerGames.indexOf(game);
+
+            if (gameIndex !== -1) {
+              multiPlayerGames.splice(gameIndex, 1);
+            }
+          }
+          break;
+
+        case 'democratic':
+          if (game.players.length === 0) {
+            democratic = null;
           } else {
-            game.move(game.maxVote);
-            game.clearVotes();
-            io.to('democratic').emit('gamestate', Object.assign({
-              waiting: true
-            }, game.gamestate));
-
-            if (game.currentPlayer !== game.playerOne && game.winner === null) {
-              game.move();
-              io.to('democratic').emit('gamestate', game.gamestate);
+            if (voted) {
+              game.undoVote(previousMove);
             }
 
-            if (game.winner) {
-              democratic = null;
-            }
+            democratic = democraticMove(io, game, democratic);
           }
           break;
 
