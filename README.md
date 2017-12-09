@@ -1,7 +1,15 @@
 # MeanConnectFour
-This project was made for COMP 484 - Web Engineering. It was made by Matt Zera and Kory Dondzila.
+This project was made for COMP 484 - Web Engineering.
+
+
+## Authors
+
+**Matt Zera** - [GitHub](https://github.com/MattZera/) - [Website](https://mattzera.com)
+**Kory Dondzila** - [GitHub](https://github.com/korydondzila/) - [Website](http://korydondzila.com)
+
 
 ### Description
+
 This project implements the game of Connect Four in three different modes.
 1. Single Player - This mode allows the user to play against an AI.
 2. Multiplayer - This mode allows two users to play against each other.
@@ -18,6 +26,7 @@ It is possible for a single user to play multiple games at the same time, agains
 
 
 ## Development Setup
+
 This project uses multiple technologies. `Angular2`, `Node.js`, `Express`, and `Socket.io`.
 
 Before starting to install this project it would be best to globally install `node`, `yarn`, and `concurrently`.
@@ -25,12 +34,15 @@ You should already have `npm` available, so run the commands `npm install --glob
 
 Then run `yarn`, this will install all the required `node_modules` for the server and then do the same for the client.
 
+
 ### Dev server
+
 You can start the client and API server by running `yarn dev`. This will concurrently run `yarn start` which starts up the dev server and `cd App && yarn build` which will build the app.
 The client is then viewable at `localhost:3000`.
 This will also allows any code changes to quickly update the server and client, but the browser will need to be manually reloaded.
 
 
 # Deploying
+
 If you choose to deploy to a server, follow the steps below.
 
