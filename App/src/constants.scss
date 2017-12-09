@@ -1,0 +1,15 @@
+@import '../node_modules/include-media/dist/_include-media';
+
+$red: #fd4f57;
+$blue: #16CBC4;
+$black: #353535;
+$grey: #595959;
+$white: #f7f7f7;
+
+$breakpoints: (
+  phone: 370px,
+  tablet: 715px,
+  desktop: 1024px
+);
+
+$media-expressions: (screen: "screen") !default;

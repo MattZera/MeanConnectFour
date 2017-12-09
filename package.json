@@ -3,8 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "postinstall": "cd App && npm install"
+    "start": "npm run build:live",
+    "postinstall": "cd App && npm install",
+    "dev": "concurrently \"npm start\" \"cd App && npm run build\"",
+    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./bin/www",
+    "test": "yarn test:server && yarn test:client",
+    "test:server": "mocha --opts server/tests/mocha.opts \"./bin/**/*.test.js*\"",
+    "test:client": "cd App && yarn test"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -12,6 +17,19 @@
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.6",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.0.53",
+    "@types/socket.io": "^1.4.31",
+    "@types/socket.io-client": "^1.4.32",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.6.2"
   }
 }

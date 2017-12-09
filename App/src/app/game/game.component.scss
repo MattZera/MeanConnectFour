@@ -1,0 +1,154 @@
+@import '../../constants';
+
+$cell-size: 40px;
+
+.form {
+  width: $cell-size * 7;
+  height: $cell-size;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+  z-index: 1;
+}
+
+.coin {
+  opacity: 0.25;
+  background-color: $red;
+  margin: $cell-size*.5*.1;
+  width: $cell-size * .9;
+  height: $cell-size * .9;
+  border-radius: 100%;
+  font-size: 80%;
+  font-family: 'Poppins', sans-serif;
+  color: $white;
+  text-align: center;
+  line-height: $cell-size * .9;
+
+  &.player1 {
+    background-color: $red;
+  }
+  
+  &.player2 {
+    background-color: $blue;
+  }
+  
+  &.active {
+    visibility: visible;
+  }
+  
+  &.inactive {
+    visibility: hidden;
+  }
+
+  &.voted:hover {
+    cursor: not-allowed;
+    opacity: 0.25;
+  }
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+}
+
+.message {
+  font-size: 160%;
+  font-family: 'Poppins', sans-serif;
+  line-height: $cell-size;
+  margin: auto;
+  background-color: transparent;
+  color: $white;
+
+  &.player1 {
+    color: $red;
+  }
+  
+  &.player2 {
+    color: $blue;
+  }
+}
+
+#reset {
+  width: $cell-size * 5 - $cell-size * .1;
+  height: $cell-size * .9;
+  margin: ($cell-size / 4) auto;
+  text-align: center;
+  font-size: 160%;
+  font-family: 'Poppins', sans-serif;
+  line-height: $cell-size * .9;
+  border-radius: $cell-size / 2;
+  background-color: $blue;
+  color: $white;
+
+  &:hover {
+    background-color: $red;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+@include media('screen', '>phone', '<=tablet') {
+  $cell-size: 50px;
+
+  .form {
+    width: $cell-size * 7;
+    height: $cell-size;
+  }
+
+  .coin {
+    margin: $cell-size*.5*.1;
+    width: $cell-size * .9;
+    height: $cell-size * .9;
+    font-size: 100%;
+    line-height: $cell-size * .9;
+  }
+
+  .message {
+    font-size: 200%;
+    line-height: $cell-size;
+  }
+
+  #reset {
+    width: $cell-size * 5 - $cell-size * .1;
+    height: $cell-size * .9;
+    margin: ($cell-size / 4) auto;
+    margin-bottom: 0;
+    font-size: 200%;
+    line-height: $cell-size * .9;
+    border-radius: $cell-size / 2;
+  }
+}
+
+@include media('screen', '>tablet') {
+  $cell-size: 100px;
+  
+  .form {
+    width: $cell-size * 7;
+    height: $cell-size;
+  }
+  
+  .coin {
+    margin: $cell-size*.5*.1;
+    width: $cell-size * .9;
+    height: $cell-size * .9;
+    font-size: 200%;
+    line-height: $cell-size * .9;
+  }
+
+  .message {
+    font-size: 400%;
+    line-height: $cell-size;
+  }
+
+  #reset {
+    width: $cell-size * 5 - $cell-size * .1;
+    height: $cell-size * .9;
+    margin: ($cell-size / 4) auto;
+    font-size: 400%;
+    line-height: $cell-size * .9;
+    border-radius: $cell-size / 2;
+  }
+}

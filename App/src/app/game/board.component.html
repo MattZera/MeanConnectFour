@@ -1,0 +1,13 @@
+<div class="board" (window:resize)="onResize()">
+  <div class="col" *ngFor="let col of board; let i = index">
+    <ng-container *ngFor="let player of col; let j = index">
+      <ng-template *ngIf="animate && animateRow == j && animateCol == i;then animate else notAnimate"></ng-template>
+      <ng-template #animate>
+        <div *ngIf="player > 0" class="board-piece player{{player}} animate" [ngStyle]="{'top': j * width + 'px', 'animation-duration': 1/12 * (j+1) + 's'}"></div>
+      </ng-template>
+      <ng-template #notAnimate>
+        <div *ngIf="player > 0" class="board-piece player{{player}}" [ngStyle]="{'top': j * width + 'px'}"></div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>
