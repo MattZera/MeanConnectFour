@@ -53,10 +53,12 @@ export class GameComponent implements OnInit, OnDestroy {
         this.waiting = false;
       }
 
-      if ((!data.winner && this.socket.getId() === data.players[0]) || this.gameType === 'democratic') {
-        this.player = data.playerOne;
-      } else {
-        this.player = data.playerTwo;
+      if (!data.winner) {
+        if (this.socket.getId() === data.players[0] || this.gameType === 'democratic') {
+          this.player = data.playerOne;
+        } else {
+          this.player = data.playerTwo;
+        }
       }
 
       if (!data.lastMove && !data.winner) {
