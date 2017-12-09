@@ -25,6 +25,11 @@ In the case of Democratic Play, if no one is in the game, then a new game is cre
 It is possible for a single user to play multiple games at the same time, against themselves, or as multiple players in the Democratic game. This is done by having more than one browser window open. So technically a player could achieve multiple votes in the Democratic game this way.
 
 
+## Installing & running
+
+Make sure you have node and npm installed. Simply move to the folder and type `npm install` and everything should install into the right place in order to run it.
+Next run `./bin/www` and node should start the express server on localhost:3000
+
 ## Development Setup
 
 This project uses multiple technologies. `Angular2`, `Node.js`, `Express`, and `Socket.io`.
