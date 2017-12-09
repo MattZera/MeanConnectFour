@@ -145,6 +145,31 @@ class Game {
   }
 }
 
+function democraticMove(io, game, democratic) {
+  if (game.totalVotes < game.players.length) {
+    io.to('democratic').emit('gamestate', Object.assign({
+      updateVotes: true
+    }, game.gamestate));
+  } else {
+    game.move(game.maxVote);
+    game.clearVotes();
+    io.to('democratic').emit('gamestate', Object.assign({
+      waiting: true
+    }, game.gamestate));
+
+    if (game.currentPlayer !== game.playerOne && game.winner === null) {
+      game.move();
+      io.to('democratic').emit('gamestate', game.gamestate);
+    }
+
+    if (game.winner) {
+      democratic = null;
+    }
+  }
+
+  return democratic;
+}
+
 module.exports = function (server) {
   let io = socketio(server);
 
@@ -154,8 +179,9 @@ module.exports = function (server) {
   io.on('connection', (client) => {
     console.log("connected");
 
-    let game;
-    let previousMove;
+    let game = null;
+    let previousMove = null;
+    let voted = false;
 
     client.on('newgame', (type) => {
       previousMove = null;
@@ -262,32 +288,18 @@ module.exports = function (server) {
 
         case 'democratic':
           game.vote(data);
-
-          if (game.totalVotes < game.players.length) {
-            io.to('democratic').emit('gamestate', Object.assign({
-              updateVotes: true
-            }, game.gamestate));
-          } else {
-            game.move(game.maxVote);
-            game.clearVotes();
-            io.to('democratic').emit('gamestate', Object.assign({
-              waiting: true
-            }, game.gamestate));
-
-            if (game.currentPlayer !== game.playerOne && game.winner === null) {
-              game.move();
-              io.to('democratic').emit('gamestate', game.gamestate);
-            }
-
-            if (game.winner) {
-              democratic = null;
-            }
-          }
+          voted = true;
+          democratic = democraticMove(io, game, democratic);
           break;
 
         default:
           break;
       }
+    });
+
+    client.on('clearVote', () => {
+      previousMove = null;
+      voted = false;
     });
 
     client.on('disconnect', () => {
@@ -315,6 +327,12 @@ module.exports = function (server) {
         case 'democratic':
           if (game.players.length === 0) {
             democratic = null;
+          } else {
+            if (voted) {
+              game.undoVote(previousMove);
+            }
+
+            democratic = democraticMove(io, game, democratic);
           }
           break;
 

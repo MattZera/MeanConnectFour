@@ -46,6 +46,9 @@ export class GameComponent implements OnInit, OnDestroy {
       if (data.waiting) {
         this.waiting = true;
         this.message = "...waiting for player " + (2 - this.player + 1);
+        if (this.gameType === 'democratic') {
+          this.socket.send('clearVote');
+        }
       } else {
         this.waiting = false;
       }
@@ -58,6 +61,7 @@ export class GameComponent implements OnInit, OnDestroy {
         }
 
         if (this.gameType === 'democratic' && data.players.length == 1) {
+          this.waiting = true;
           this.nextPlayer = 0;
           this.message = "...waiting for players";
         } else if (this.gameType === 'multiplayer' && data.players.length == 1) {
@@ -88,7 +92,7 @@ export class GameComponent implements OnInit, OnDestroy {
         } else if (data.lastMove) {
           this.voted = false;
           this.nextPlayer = data.nextPlayer;
-          
+
           if (data.lastMove.row == this.row && data.lastMove.col == this.col) {
             this.animate = false;
             this.row = -1;
