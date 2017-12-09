@@ -12,9 +12,11 @@ describe("./gameLogic", () => {
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0]
       ];
-      const win = checkWin(board, 3, 1);
+      const moveData = checkWin(board, 3, 1);
 
-      expect(win).to.be.false;
+      expect(moveData).to.deep.equal({
+        win: false, row: 5, col: 3
+      });
       expect(board).to.deep.equal([
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
@@ -35,9 +37,11 @@ describe("./gameLogic", () => {
         [1, 2, 1, 0, 1, 2, 2]
       ];
 
-      const win = checkWin(board, 3, 1);
+      const moveData = checkWin(board, 3, 1);
 
-      expect(win).to.be.false;
+      expect(moveData).to.deep.equal({
+        win: false, row: 5, col: 3
+      });
       expect(board).to.deep.equal([
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
@@ -58,9 +62,11 @@ describe("./gameLogic", () => {
         [1, 1, 1, 0, 2, 2, 2]
       ];
 
-      const win = checkWin(board, 3, 1);
+      const moveData = checkWin(board, 3, 1);
 
-      expect(win).to.be.true;
+      expect(moveData).to.deep.equal({
+        win: true, row: 5, col: 3
+      });
       expect(board).to.deep.equal([
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
@@ -81,9 +87,11 @@ describe("./gameLogic", () => {
         [1, 2, 1, 1, 2, 2, 2]
       ];
 
-      const win = checkWin(board, 1, 1);
+      const moveData = checkWin(board, 1, 1);
 
-      expect(win).to.be.true;
+      expect(moveData).to.deep.equal({
+        win: true, row: 3, col: 1
+      });
       expect(board).to.deep.equal([
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
@@ -104,9 +112,11 @@ describe("./gameLogic", () => {
         [0, 1, 1, 2, 1, 2, 2]
       ];
 
-      const win = checkWin(board, 5, 2);
+      const moveData = checkWin(board, 5, 2);
 
-      expect(win).to.be.true;
+      expect(moveData).to.deep.equal({
+        win: true, row: 3, col: 5
+      });
       expect(board).to.deep.equal([
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
@@ -127,9 +137,11 @@ describe("./gameLogic", () => {
         [1, 1, 2, 1, 2, 2, 2]
       ];
 
-      const win = checkWin(board, 3, 1);
+      const moveData = checkWin(board, 3, 1);
 
-      expect(win).to.be.true;
+      expect(moveData).to.deep.equal({
+        win: true, row: 2, col: 3
+      });
       expect(board).to.deep.equal([
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
