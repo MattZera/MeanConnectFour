@@ -38,8 +38,12 @@ class Game {
     return this._currentPlayer;
   }
 
-  set vote(column) {
+  vote(column) {
     this._votes[column]++;
+  }
+
+  undoVote(column) {
+    this._votes[column]--;
   }
 
   get totalVotes() {
@@ -137,8 +141,10 @@ module.exports = function (server) {
     console.log("connected");
 
     let game;
+    let previousMove;
 
     client.on('newgame', (type) => {
+      previousMove = null;
 
       switch (type) {
         case 'singleplayer':
@@ -174,11 +180,13 @@ module.exports = function (server) {
 
         case 'democratic':
           client.join('democratic');
+
           if (democratic) {
             game = democratic;
             game.join(client.id);
             game.gameType = type;
             client.emit('gamestate', game.gamestate);
+            
             if (game.players.length === 2) {
               client.broadcast.to('democratic').emit('gamestate', game.gamestate);
 
@@ -206,6 +214,8 @@ module.exports = function (server) {
     });
 
     client.on('makemove', (data) => {
+      previousMove = data;
+
       switch (game.gameType) {
         case 'singleplayer':
           game.move(data);
@@ -233,7 +243,8 @@ module.exports = function (server) {
           break;
 
         case 'democratic':
-          game.vote = data;
+          game.vote(data);
+
           if (game.totalVotes < game.players.length) {
             io.to('democratic').emit('gamestate', Object.assign({
               updateVotes: true
