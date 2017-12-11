@@ -177,8 +177,6 @@ module.exports = function (server) {
   let democratic = null;
 
   io.on('connection', (client) => {
-    console.log("connected");
-
     let game = null;
     let previousMove = null;
     let voted = false;
@@ -214,8 +212,6 @@ module.exports = function (server) {
               waiting: true
             }, game.gamestate));
           }
-
-          console.log(multiPlayerGames.length + " Multiplayer");
           break;
 
         case 'democratic':
@@ -227,13 +223,17 @@ module.exports = function (server) {
             game.gameType = type;
             client.emit('gamestate', game.gamestate);
 
-            if (game.players.length === 2) {
+            if (game.players.length === 2 && !game.lastMove) {
               client.broadcast.to('democratic').emit('gamestate', game.gamestate);
 
               if (game.playerOne !== 1) {
                 game.move();
                 io.to('democratic').emit('gamestate', game.gamestate);
               }
+            } else {
+              io.to('democratic').emit('gamestate', Object.assign({
+                updateVotes: true
+              }, game.gamestate));
             }
           } else {
             game = new Game();
@@ -244,8 +244,6 @@ module.exports = function (server) {
               waiting: true
             }, game.gamestate));
           }
-
-          console.log(game.players.length + " players in democratic");
           break;
 
         default:

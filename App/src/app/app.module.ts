@@ -23,5 +23,4 @@ import { BoardComponent } from "./game/board.component";
   providers: [SocketService],
   bootstrap: [AppComponent]
 })
-
 export class AppModule { }
