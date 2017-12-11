@@ -141,20 +141,6 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
-  isActive(column) {
-    if (this.board[column][0] !== 0) {
-      return "inactive";
-    } else {
-      return "active";
-    }
-  }
-
-  hasVoted() {
-    if (this.voted) {
-      return "voted";
-    }
-  }
-
   transpose(board) {
     return board[0].map(function (col, c) {
       return board.map(function (row, r) {

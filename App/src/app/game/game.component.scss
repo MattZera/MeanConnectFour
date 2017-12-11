@@ -27,15 +27,11 @@ $cell-size: 40px;
   &.player1 {
     background-color: $red;
   }
-  
+
   &.player2 {
     background-color: $blue;
   }
-  
-  &.active {
-    visibility: visible;
-  }
-  
+
   &.inactive {
     visibility: hidden;
   }
@@ -62,7 +58,7 @@ $cell-size: 40px;
   &.player1 {
     color: $red;
   }
-  
+
   &.player2 {
     color: $blue;
   }
@@ -124,12 +120,12 @@ $cell-size: 40px;
 
 @include media('screen', '>tablet') {
   $cell-size: 100px;
-  
+
   .form {
     width: $cell-size * 7;
     height: $cell-size;
   }
-  
+
   .coin {
     margin: $cell-size*.5*.1;
     width: $cell-size * .9;

@@ -1,18 +1,13 @@
 <div class="form">
-  <ng-template *ngIf="player == nextPlayer && !winner && !waiting; then buttons"></ng-template>
-  <ng-template #buttons>
-    <ng-template *ngIf="gameType == 'democratic'; then democratic else normal"></ng-template>
-    <ng-template #democratic>
-      <ng-container *ngFor="let column of columns">
-        <div class="coin player{{player}} {{isActive(column)}} {{hasVoted()}}" (click)="handleClick(column)">{{votes[column]}}</div>
-      </ng-container>
-    </ng-template>
-    <ng-template #normal>
-      <ng-container *ngFor="let column of columns">
-        <div class="coin player{{player}} {{isActive(column)}}" (click)="handleClick(column)"></div>
-      </ng-container>
-    </ng-template>
-  </ng-template>
+  <ng-container *ngIf="player == nextPlayer && !winner">
+    <ng-container *ngFor="let column of columns">
+      <div class="coin player{{player}}"
+           [ngClass]="{'active': board[column][0] === 0,'inactive': board[column][0] !== 0, 'voted': voted && gameType == 'democratic'}"
+           (click)="handleClick(column)">
+        <ng-container *ngIf="gameType === 'democratic'">{{votes[column]}}</ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
   <div class="message player{{nextPlayer}}" *ngIf="waiting && !winner">{{message}}</div>
   <div class="message player{{winner}}" *ngIf="winner">{{message}}</div>
 </div>
