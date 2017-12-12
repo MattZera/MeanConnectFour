@@ -3,7 +3,7 @@
     <ng-container *ngFor="let column of columns">
       <div class="coin player{{player}}"
            [ngClass]="{'active': board[column][0] === 0,'inactive': board[column][0] !== 0, 'voted': voted && gameType == 'democratic'}"
-           (click)="handleClick(column)">
+           (click)="handleMove(column)">
         <ng-container *ngIf="gameType === 'democratic'">{{votes[column]}}</ng-container>
       </div>
     </ng-container>

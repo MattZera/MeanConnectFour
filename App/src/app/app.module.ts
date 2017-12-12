@@ -7,6 +7,7 @@ import { MenuComponent } from './menu/menu.component';
 import { routing } from "./app.routing";
 import { GameComponent } from './game/game.component';
 import { BoardComponent } from "./game/board.component";
+import {ConfirmLeaveGuard} from "./game/confirm-leave-guard";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { BoardComponent } from "./game/board.component";
     routing,
     BrowserModule
   ],
-  providers: [SocketService],
+  providers: [SocketService, ConfirmLeaveGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
