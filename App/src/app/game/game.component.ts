@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { SocketService } from "../services/socket.service";
 import { Subscription } from "rxjs/Subscription";
 
@@ -32,6 +32,7 @@ export class GameComponent implements OnInit, OnDestroy {
   waiting = false;
   votes = [0, 0, 0, 0, 0, 0, 0];
   voted = false;
+  started = false;
 
   constructor(private route: ActivatedRoute,
     private socket: SocketService) { }
@@ -81,6 +82,7 @@ export class GameComponent implements OnInit, OnDestroy {
           this.votes = data.votes;
           this.animate = false;
         }
+
       } else {
         if (this.gameType === 'democratic') {
           this.votes = data.votes;
@@ -91,6 +93,7 @@ export class GameComponent implements OnInit, OnDestroy {
           this.row = -1;
           this.col = -1;
         } else if (data.lastMove) {
+          this.started = true;
           this.voted = false;
           this.nextPlayer = data.nextPlayer;
 
@@ -128,7 +131,7 @@ export class GameComponent implements OnInit, OnDestroy {
     this.gameState.unsubscribe();
   }
 
-  handleClick(data) {
+  handleMove(data) {
     if (!this.voted) {
       if (this.gameType === 'democratic') {
         this.voted = true;

@@ -7,8 +7,8 @@ import {Injectable} from "@angular/core";
 export class ConfirmLeaveGuard implements CanDeactivate<GameComponent>{
 
   canDeactivate(target: GameComponent): boolean {
-    if(!target.winner){
-      return window.confirm('Do you really want to leave?');
+    if(!target.winner && target.started){
+      return window.confirm('Do you really want to leave the game?');
     }
     return true;
   }
