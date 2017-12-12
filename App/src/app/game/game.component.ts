@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 import { SocketService } from "../services/socket.service";
 import { Subscription } from "rxjs/Subscription";
 
@@ -34,7 +34,6 @@ export class GameComponent implements OnInit, OnDestroy {
   voted = false;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
     private socket: SocketService) { }
 
   ngOnInit() {
@@ -171,4 +170,5 @@ export class GameComponent implements OnInit, OnDestroy {
     this.message = "...waiting for player 1";
     this.socket.send('newgame', this.gameType);
   }
+
 }
